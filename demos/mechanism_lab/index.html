@@ -1,0 +1,23 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Mechanism Lab — Artobolevsky-inspired concepts</title><style>
+body{margin:0;background:#0b1020;color:#eaf2ff;font-family:Inter,system-ui,sans-serif}main{display:grid;grid-template-columns:360px 1fr;min-height:100vh}.panel{padding:24px;background:#111a2d;border-right:1px solid #263450}.panel h1{font-size:24px;margin:0 0 8px}.panel p{color:#aebdd6;line-height:1.45}.card{background:#0d1628;border:1px solid #263450;border-radius:16px;padding:14px;margin:14px 0}.stage{display:grid;place-items:center;padding:20px}svg{max-width:100%;height:auto;background:radial-gradient(circle at 50% 40%,#172441,#080d18 70%);border-radius:22px;box-shadow:0 30px 80px #0008}.label{fill:#eaf2ff;font-weight:700;font-size:16px}.small{fill:#9fb0cc;font-size:13px}.metal{fill:#2a3b5d;stroke:#8ebcff;stroke-width:3}.accent{fill:#facc15;stroke:#ffe89a;stroke-width:3}.link{stroke:#7dd3fc;stroke-width:8;stroke-linecap:round}.ghost{fill:none;stroke:#ffffff22;stroke-width:2}.slot{fill:none;stroke:#f472b6;stroke-width:12;stroke-linecap:round}.pin{fill:#fff;stroke:#0b1020;stroke-width:3}.idea{color:#dbeafe}.pill{display:inline-block;border:1px solid #3b82f6;border-radius:999px;padding:4px 9px;margin:3px;color:#bfdbfe;font-size:12px}
+</style></head><body><main><section class="panel"><h1>Mechanism Lab</h1><p>First local prototype: an Artobolevsky-inspired hybrid indexing mechanism. It combines a Geneva-style dwell/index behavior with a slotted yoke output, so one steady motor can create <b>pause → fast index → controlled slide stroke</b>.</p><div class="card"><b>Innovation angle</b><p class="idea">Useful for low-cost automation: pill sorting, label stepping, camera shutters, educational robots, micro-conveyors.</p><span class="pill">dwell</span><span class="pill">indexing</span><span class="pill">slider output</span><span class="pill">single actuator</span></div><div class="card"><b>Next step</b><p>Use the scanned source books to mine classic mechanisms, then recombine primitives: cam + four-bar, Geneva + yoke, ratchet + compliant spring, differential + intermittent stop.</p></div></section><section class="stage"><svg id="svg" viewBox="0 0 980 680"><defs><marker id="arrow" markerWidth="12" markerHeight="8" refX="10" refY="4" orient="auto"><polygon points="0 0,12 4,0 8" fill="#7dd3fc"/></marker></defs><text x="40" y="48" class="label">Variable-dwell indexing yoke concept</text><text x="40" y="72" class="small">steady rotary input → intermittent indexed wheel → shaped slot drives slider</text><circle cx="300" cy="340" r="150" class="ghost"/><circle cx="300" cy="340" r="48" class="metal"/><g id="driver"><line x1="300" y1="340" x2="430" y2="340" class="link"/><circle cx="430" cy="340" r="18" class="pin"/></g><g id="wheel"><circle cx="610" cy="340" r="112" class="metal"/><path d="M610 228 L635 310 L720 310 L650 360 L678 446 L610 394 L542 446 L570 360 L500 310 L585 310 Z" fill="#111a2d" stroke="#8ebcff" stroke-width="4"/><circle cx="610" cy="340" r="28" class="accent"/></g><path id="slot" d="M540 520 C600 470 670 470 735 520" class="slot"/><g id="slider"><rect x="620" y="500" width="190" height="70" rx="18" class="metal"/><circle cx="650" cy="535" r="13" class="pin"/><text x="655" y="545" class="small">output carriage</text></g><line x1="130" y1="585" x2="840" y2="585" stroke="#334155" stroke-width="8" stroke-linecap="round"/><text id="readout" x="40" y="635" class="small"></text></svg></section></main><script>
+const driver=document.getElementById('driver'), wheel=document.getElementById('wheel'), slider=document.getElementById('slider'), readout=document.getElementById('readout');
+let t0=performance.now();
+function animate(now){
+  const t=(now-t0)/1000, a=t*75;
+  driver.setAttribute('transform',`rotate(${a} 300 340)`);
+  // intermittent wheel: index 60 degrees during a short part of each driver revolution, dwell otherwise
+  const phase=((a%360)+360)%360; let step=Math.floor(a/360); let local=0;
+  if(phase>45 && phase<135){ local=(phase-45)/90; local=local*local*(3-2*local); }
+  else if(phase>=135){ local=1; }
+  const wa=(step+local)*60;
+  wheel.setAttribute('transform',`rotate(${wa} 610 340)`);
+  const slide=620 + 95*Math.sin((wa*Math.PI/180)*1.5);
+  slider.setAttribute('transform',`translate(${slide-620} 0)`);
+  const mode=(phase>45&&phase<135)?'INDEXING + STROKE':'DWELL / HOLD';
+  readout.textContent=`state: ${mode} · wheel angle ${Math.round(wa%360)}° · carriage offset ${Math.round(slide-620)} px`;
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+</script></body></html>
