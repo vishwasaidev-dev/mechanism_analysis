@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>InnovationLab</title>
+  <style>
+    :root{color-scheme:dark;--bg:#07101e;--card:#101d33;--line:#28405f;--text:#eaf2ff;--muted:#9fb0cc;--blue:#7dd3fc;--pink:#f472b6}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -20%,#1b3768,#07101e 58%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;display:grid;place-items:center;padding:24px}.wrap{max-width:860px;width:100%}h1{font-size:42px;margin:0 0 8px}p{color:var(--muted);line-height:1.45}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:22px}.card{display:block;text-decoration:none;color:var(--text);background:linear-gradient(180deg,#101d33,#0a1424);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 24px 60px #0008}.card:hover{border-color:var(--blue);transform:translateY(-1px)}.card b{display:block;font-size:18px;margin-bottom:6px}.tag{display:inline-block;border:1px solid #355b7d;border-radius:999px;padding:3px 8px;color:#bdddff;font-size:12px;margin-top:10px}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>InnovationLab</h1>
+    <p>Experimental lab for mining classic mechanism references and turning them into interactive, generative mechanism concepts.</p>
+    <section class="grid">
+      <a class="card" href="./demos/mechanism_lab/">
+        <b>Mechanism Lab — 2D Studio</b>
+        <p>Original polished SVG mechanism viewer: slider-crank, cam follower, and hybrid indexing yoke.</p>
+        <span class="tag">kinematic animation</span>
+      </a>
+      <a class="card" href="./demos/mechanism_contact_preview/">
+        <b>Mechanism Contact Preview</b>
+        <p>Boundary/contact-focused preview showing why cam followers and indexing wheels need physical contact constraints.</p>
+        <span class="tag">contact boundaries</span>
+      </a>
+    </section>
+  </main>
+</body>
+</html>

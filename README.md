@@ -2,6 +2,13 @@
 
 Experimental lab for mining classic mechanism references and turning them into interactive, generative mechanism concepts.
 
+
+## Demos
+
+- `index.html` — landing page linking the demos.
+- `demos/mechanism_lab/index.html` — original polished 2D mechanism studio.
+- `demos/mechanism_contact_preview/index.html` — contact/boundary-focused mechanism preview for cam follower and indexing concepts.
+
 ## Current prototype
 
 - `demos/mechanism_lab/index.html` — interactive variable-dwell indexing yoke concept.
