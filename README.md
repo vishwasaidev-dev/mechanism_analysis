@@ -8,6 +8,7 @@ Experimental lab for mining classic mechanism references and turning them into i
 - `index.html` — landing page linking the demos.
 - `demos/mechanism_lab/index.html` — original polished 2D mechanism studio.
 - `demos/mechanism_contact_preview/index.html` — contact/boundary-focused mechanism preview for cam follower and indexing concepts.
+- `demos/mechanism_rapier_physics/index.html` — Rapier 2D/WASM physics prototype with rigid-body contacts for cam follower and indexing experiments.
 
 ## Current prototype
 
