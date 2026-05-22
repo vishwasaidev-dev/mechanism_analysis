@@ -194,8 +194,7 @@
         bar.castShadow = true; bar.receiveShadow = true;
         group.add(bar);
         for (const side of [-0.5, 0.5]) {
-          const boss = new THREE.Mesh(new THREE.CylinderGeometry(6, 6, 11, 32), mat);
-          boss.rotation.x = Math.PI / 2;
+          const boss = new THREE.Mesh(new THREE.CylinderGeometry(6, 6, 8, 32), mat);
           boss.castShadow = true; boss.receiveShadow = true;
           boss.userData.side = side;
           group.add(boss);
@@ -210,9 +209,11 @@
       };
       Object.values(links).forEach(o => scene.add(o));
       const joints3 = ['A','B','C','D'].reduce((acc, name) => {
-        const pin = new THREE.Mesh(new THREE.CylinderGeometry(3, 3, 26, 32), mats.joint);
-        pin.rotation.x = Math.PI / 2;
+        // Pivot pins now match the visual crank/link thickness instead of
+        // protruding across the full mechanism stack.
+        const pin = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 3.2, 8.5, 32), mats.joint);
         pin.castShadow = true;
+        pin.receiveShadow = true;
         scene.add(pin);
         acc[name] = pin;
         return acc;
@@ -249,8 +250,9 @@
       placeLink3D(three.links.crank, p.A, p.B, 9);
       placeLink3D(three.links.coupler, p.B, p.C, 18);
       placeLink3D(three.links.rocker, p.D, p.C, 9);
+      const pinLayer = { A: 9, B: 18, C: 18, D: 9 };
       for (const [name, point] of Object.entries(p)) {
-        three.joints3[name].position.set(point.x, 14, -point.y);
+        three.joints3[name].position.set(point.x, pinLayer[name], -point.y);
       }
     }
 
