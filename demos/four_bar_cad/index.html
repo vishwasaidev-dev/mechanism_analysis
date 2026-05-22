@@ -9,7 +9,7 @@
     {"imports":{"three":"https://unpkg.com/three@0.165.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.165.0/examples/jsm/"}}
   </script>
   <style>
-    :root{color-scheme:dark;--bg:#07101e;--panel:#0e1b30;--line:#28405f;--text:#eaf2ff;--muted:#9fb0cc;--cyan:#7dd3fc;--green:#86efac;--pink:#f472b6;--yellow:#fde68a}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 25% -10%,#21477f,#07101e 55%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}.shell{max-width:1180px;margin:0 auto;padding:28px}a{color:var(--cyan)}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:20px}.crumb{color:var(--muted);text-decoration:none}h1{font-size:clamp(30px,5vw,54px);margin:12px 0 8px;letter-spacing:-.04em}.lead{max-width:820px;color:var(--muted);font-size:18px;line-height:1.55}.viewer{overflow:hidden;border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,#10203a,#081323);box-shadow:0 30px 90px #0009}model-viewer{width:100%;height:min(72vh,720px);background:radial-gradient(circle at 50% 35%,#263e65,#081323 62%)}.three-card{margin-top:18px}.three-stage{height:min(64vh,640px);min-height:420px;border-radius:18px;overflow:hidden;border:1px solid #203755;background:radial-gradient(circle at 50% 25%,#182f52,#06101e 70%)}.three-stage canvas{display:block;width:100%;height:100%}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:18px}.card{background:linear-gradient(180deg,#101d33,#0a1424);border:1px solid var(--line);border-radius:22px;padding:18px}.card h2{font-size:18px;margin:0 0 10px}.card p,.card li{color:var(--muted);line-height:1.5}.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#06101c;background:var(--cyan);border:0;border-radius:999px;padding:10px 14px;font-weight:750;cursor:pointer}.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}.tag{display:inline-block;border:1px solid #355b7d;border-radius:999px;padding:4px 9px;color:#bdddff;font-size:12px;margin:4px 4px 0 0}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{border:1px solid #213852;background:#081524;border-radius:16px;padding:12px}.metric b{display:block;color:var(--green);font-size:20px}.metric span{color:var(--muted);font-size:12px}.kinematics{margin-top:18px;display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.sketch{width:100%;height:auto;min-height:360px;border-radius:18px;background:radial-gradient(circle at 50% 20%,#162a49,#07101e 70%);border:1px solid #203755}.link{stroke-linecap:round;stroke-linejoin:round;fill:none}.ground{stroke:#94a3b8;stroke-width:12}.crank{stroke:#7dd3fc;stroke-width:10}.coupler{stroke:#f472b6;stroke-width:10}.rocker{stroke:#86efac;stroke-width:10}.joint{fill:#f8fafc;stroke:#06101c;stroke-width:2}.trace{fill:none;stroke:#fde68a;stroke-width:2;stroke-dasharray:3 6;opacity:.8}.label{fill:#dbeafe;font-size:8px;font-weight:800}.controls{display:grid;gap:14px}.slider-row label{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:8px}input[type=range]{width:100%;accent-color:var(--cyan)}.param-note{font-size:13px;color:var(--muted);margin:0}.readout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;font-variant-numeric:tabular-nums}.readout div{border:1px solid #213852;background:#081524;border-radius:14px;padding:10px}.readout b{display:block;color:var(--yellow)}@media(max-width:900px){.grid,.kinematics{grid-template-columns:1fr}.top{display:block}model-viewer{height:520px}}
+    :root{color-scheme:dark;--bg:#07101e;--panel:#0e1b30;--line:#28405f;--text:#eaf2ff;--muted:#9fb0cc;--cyan:#7dd3fc;--green:#86efac;--pink:#f472b6;--yellow:#fde68a}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 25% -10%,#21477f,#07101e 55%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}.shell{max-width:1180px;margin:0 auto;padding:28px}a{color:var(--cyan)}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:20px}.crumb{color:var(--muted);text-decoration:none}h1{font-size:clamp(30px,5vw,54px);margin:12px 0 8px;letter-spacing:-.04em}.lead{max-width:820px;color:var(--muted);font-size:18px;line-height:1.55}.viewer{overflow:hidden;border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,#10203a,#081323);box-shadow:0 30px 90px #0009}model-viewer{width:100%;height:min(72vh,720px);background:radial-gradient(circle at 50% 35%,#263e65,#081323 62%)}.three-card{margin-top:18px}.three-stage{height:min(64vh,640px);min-height:420px;border-radius:18px;overflow:hidden;border:1px solid #203755;background:radial-gradient(circle at 50% 25%,#182f52,#06101e 70%)}.three-stage canvas{display:block;width:100%;height:100%}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:18px}.card{background:linear-gradient(180deg,#101d33,#0a1424);border:1px solid var(--line);border-radius:22px;padding:18px}.card h2{font-size:18px;margin:0 0 10px}.card p,.card li{color:var(--muted);line-height:1.5}.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#06101c;background:var(--cyan);border:0;border-radius:999px;padding:10px 14px;font-weight:750;cursor:pointer}.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}.tag{display:inline-block;border:1px solid #355b7d;border-radius:999px;padding:4px 9px;color:#bdddff;font-size:12px;margin:4px 4px 0 0}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{border:1px solid #213852;background:#081524;border-radius:16px;padding:12px}.metric b{display:block;color:var(--green);font-size:20px}.metric span{color:var(--muted);font-size:12px}.kinematics{margin-top:18px;display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.sketch{width:100%;height:auto;min-height:360px;border-radius:18px;background:radial-gradient(circle at 50% 20%,#162a49,#07101e 70%);border:1px solid #203755}.link{stroke-linecap:round;stroke-linejoin:round;fill:none}.ground{stroke:#94a3b8;stroke-width:12}.crank{stroke:#7dd3fc;stroke-width:10}.coupler{stroke:#f472b6;stroke-width:10}.rocker{stroke:#86efac;stroke-width:10}.joint{fill:#f8fafc;stroke:#06101c;stroke-width:2}.trace{fill:none;stroke:#fde68a;stroke-width:2;stroke-dasharray:3 6;opacity:.8}.label{fill:#dbeafe;font-size:8px;font-weight:800}.controls{display:grid;gap:14px}.control-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.slider-row label{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:8px}input[type=range]{width:100%;accent-color:var(--cyan)}.param-note{font-size:13px;color:var(--muted);margin:0}.warning{color:#fecaca;background:#451a1a;border:1px solid #7f1d1d;border-radius:12px;padding:10px;display:none}.warning.show{display:block}.readout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;font-variant-numeric:tabular-nums}.readout div{border:1px solid #213852;background:#081524;border-radius:14px;padding:10px}.readout b{display:block;color:var(--yellow)}@media(max-width:900px){.grid,.kinematics{grid-template-columns:1fr}.control-grid{grid-template-columns:1fr}.top{display:block}model-viewer{height:520px}}
   </style>
 </head>
 <body>
@@ -53,7 +53,26 @@
           <label><span>Crank angle</span><strong><span id="angleVal">45</span>°</strong></label>
           <input id="angle" type="range" min="0" max="360" value="45" step="1" />
         </div>
-        <button id="play" class="btn" type="button">Play animation</button>
+        <div class="control-grid">
+          <div class="slider-row">
+            <label><span>Ground span</span><strong><span id="groundCtlVal">90</span> mm</strong></label>
+            <input class="length-control" data-param="ground" type="range" min="60" max="130" value="90" step="1" />
+          </div>
+          <div class="slider-row">
+            <label><span>Crank</span><strong><span id="crankCtlVal">28</span> mm</strong></label>
+            <input class="length-control" data-param="crank" type="range" min="12" max="55" value="28" step="1" />
+          </div>
+          <div class="slider-row">
+            <label><span>Coupler</span><strong><span id="couplerCtlVal">80</span> mm</strong></label>
+            <input class="length-control" data-param="coupler" type="range" min="35" max="120" value="80" step="1" />
+          </div>
+          <div class="slider-row">
+            <label><span>Rocker</span><strong><span id="rockerCtlVal">55</span> mm</strong></label>
+            <input class="length-control" data-param="rocker" type="range" min="25" max="100" value="55" step="1" />
+          </div>
+        </div>
+        <div id="closureWarning" class="warning">This parameter set does not close at the current crank angle. Try a different angle or link length.</div>
+        <div class="links"><button id="play" class="btn" type="button">Play animation</button><button id="resetParams" class="btn secondary" type="button">Reset parameters</button></div>
         <div class="readout">
           <div><span>Ground</span><b id="groundVal">90 mm</b></div>
           <div><span>Crank</span><b id="crankVal">28 mm</b></div>
@@ -80,10 +99,10 @@
       <article class="card">
         <h2>Model assumptions</h2>
         <div class="metrics">
-          <div class="metric"><b>90 mm</b><span>ground pivot span</span></div>
-          <div class="metric"><b>28 mm</b><span>input crank</span></div>
-          <div class="metric"><b>80 mm</b><span>coupler</span></div>
-          <div class="metric"><b>55 mm</b><span>output rocker</span></div>
+          <div class="metric"><b id="groundMetric">90 mm</b><span>ground pivot span</span></div>
+          <div class="metric"><b id="crankMetric">28 mm</b><span>input crank</span></div>
+          <div class="metric"><b id="couplerMetric">80 mm</b><span>coupler</span></div>
+          <div class="metric"><b id="rockerMetric">55 mm</b><span>output rocker</span></div>
         </div>
         <p><span class="tag">M4 clearance holes</span><span class="tag">45° CAD pose</span><span class="tag">STEP-first</span><span class="tag">JS kinematics</span></p>
       </article>
@@ -93,10 +112,14 @@
     import * as THREE from "three";
     import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-    const params = { ground: 90, crank: 28, coupler: 80, rocker: 55 };
+    const defaultParams = { ground: 90, crank: 28, coupler: 80, rocker: 55, linkWidth: 12, linkThickness: 6, crankAngleDeg: 45 };
+    const params = { ...defaultParams };
     const angle = document.querySelector('#angle');
     const angleVal = document.querySelector('#angleVal');
     const play = document.querySelector('#play');
+    const resetParams = document.querySelector('#resetParams');
+    const lengthControls = [...document.querySelectorAll('.length-control')];
+    const closureWarning = document.querySelector('#closureWarning');
     const els = ['ground','crank','coupler','rocker'].reduce((o,id)=>(o[id]=document.querySelector('#'+id),o),{});
     const joints = document.querySelector('#joints');
     const labels = document.querySelector('#labels');
@@ -110,18 +133,37 @@
     function intersections(p0, r0, p1, r1) {
       const dx = p1.x - p0.x, dy = p1.y - p0.y;
       const d = Math.hypot(dx, dy);
+      if (d === 0 || d > r0 + r1 || d < Math.abs(r0 - r1)) return null;
       const a = (r0*r0 - r1*r1 + d*d) / (2*d);
       const h = Math.sqrt(Math.max(r0*r0 - a*a, 0));
       const xm = p0.x + a * dx / d, ym = p0.y + a * dy / d;
       const rx = -dy * h / d, ry = dx * h / d;
       return [{x:xm+rx,y:ym+ry}, {x:xm-rx,y:ym-ry}];
     }
+    function fmtMm(v) { return `${Math.round(v)} mm`; }
+    function syncParamLabels() {
+      for (const key of ['ground','crank','coupler','rocker']) {
+        document.querySelector(`#${key}CtlVal`).textContent = Math.round(params[key]);
+        document.querySelector(`#${key}Val`).textContent = fmtMm(params[key]);
+        document.querySelector(`#${key}Metric`).textContent = fmtMm(params[key]);
+        const control = document.querySelector(`[data-param="${key}"]`);
+        if (control && Number(control.value) !== Number(params[key])) control.value = params[key];
+      }
+    }
+    function syncViewBox() {
+      const pad = 26;
+      const maxReach = Math.max(params.ground + params.rocker, params.crank + params.coupler, params.ground) + pad;
+      const minY = -(Math.max(params.crank + params.coupler, params.rocker) + pad);
+      document.querySelector('#sketch').setAttribute('viewBox', `${-pad} ${minY} ${maxReach + pad} ${Math.abs(minY) + pad}`);
+    }
     function solve(deg) {
       const A = {x:0,y:0};
       const D = {x:params.ground,y:0};
       const t = deg * Math.PI / 180;
       const B = {x:params.crank*Math.cos(t), y:params.crank*Math.sin(t)};
-      const C = intersections(B, params.coupler, D, params.rocker).sort((a,b)=>b.y-a.y)[0];
+      const options = intersections(B, params.coupler, D, params.rocker);
+      if (!options) return null;
+      const C = options.sort((a,b)=>b.y-a.y)[0];
       return {A,B,C,D};
     }
     function setLine(el, a, b) {
@@ -138,6 +180,12 @@
       const deg = Number(angle.value);
       const p = solve(deg);
       angleVal.textContent = Math.round(deg);
+      syncParamLabels();
+      if (!p) {
+        closureWarning.classList.add('show');
+        return;
+      }
+      closureWarning.classList.remove('show');
       setLine(els.ground, p.A, p.D);
       setLine(els.crank, p.A, p.B);
       setLine(els.coupler, p.B, p.C);
@@ -257,9 +305,12 @@
     }
 
     function drawTrace() {
+      syncViewBox();
       const pts = [];
       for (let deg=0; deg<=360; deg+=4) {
-        const {C} = solve(deg);
+        const solved = solve(deg);
+        if (!solved) continue;
+        const {C} = solved;
         pts.push(`${pts.length?'L':'M'}${C.x.toFixed(2)},${(-C.y).toFixed(2)}`);
       }
       trace.setAttribute('d', pts.join(' '));
@@ -271,13 +322,34 @@
       raf = requestAnimationFrame(tick);
     }
     angle.addEventListener('input', update);
+    lengthControls.forEach(control => control.addEventListener('input', () => {
+      params[control.dataset.param] = Number(control.value);
+      drawTrace();
+      update();
+    }));
+    resetParams.addEventListener('click', () => {
+      Object.assign(params, defaultParams);
+      angle.value = params.crankAngleDeg;
+      drawTrace();
+      update();
+    });
+    async function loadSharedParams() {
+      try {
+        const res = await fetch('./four_bar_params.json', { cache: 'no-cache' });
+        if (res.ok) Object.assign(params, await res.json());
+      } catch (err) {
+        console.warn('Using embedded default mechanism parameters', err);
+      }
+      angle.value = params.crankAngleDeg ?? 45;
+      drawTrace();
+      update();
+    }
     play.addEventListener('click', () => {
       playing = !playing;
       play.textContent = playing ? 'Pause animation' : 'Play animation';
       if (playing) tick(); else cancelAnimationFrame(raf);
     });
-    drawTrace();
-    update();
+    loadSharedParams();
   </script>
 </body>
 </html>

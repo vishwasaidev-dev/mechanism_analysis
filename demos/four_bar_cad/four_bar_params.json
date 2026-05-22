@@ -1,0 +1,14 @@
+{
+  "units": "mm",
+  "ground": 90,
+  "crank": 28,
+  "coupler": 80,
+  "rocker": 55,
+  "linkWidth": 12,
+  "linkThickness": 6,
+  "groundWidth": 16,
+  "groundThickness": 5,
+  "pivotHoleDiameter": 4.5,
+  "pinBossDiameter": 10,
+  "crankAngleDeg": 45
+}

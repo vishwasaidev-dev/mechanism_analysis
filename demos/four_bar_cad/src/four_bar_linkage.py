@@ -7,24 +7,51 @@ regenerate STEP artifacts. Units are millimeters.
 
 from __future__ import annotations
 
+import json
 from math import atan2, cos, degrees, hypot, radians, sin, sqrt
 from pathlib import Path
 
-from build123d import Box, Color, Compound, Cylinder, Pos, Rot, export_step
+from build123d import Box, Compound, Cylinder, Pos, Rot, export_step
 
 ROOT = Path(__file__).resolve().parents[1]
 STEP_DIR = ROOT / "STEP"
+PARAMS_PATH = ROOT / "four_bar_params.json"
 
-# Mechanism parameters, mm.
-GROUND_SPAN = 90.0
-CRANK_LENGTH = 28.0
-COUPLER_LENGTH = 80.0
-ROCKER_LENGTH = 55.0
-LINK_WIDTH = 12.0
-LINK_THICKNESS = 6.0
-PIVOT_HOLE_DIAMETER = 4.5  # M4 clearance
-PIN_BOSS_DIAMETER = 10.0
-CRANK_ANGLE_DEG = 45.0
+
+def load_params():
+    """Load shared CAD/browser parameters, with defaults for old checkouts."""
+    params = {
+        "ground": 90.0,
+        "crank": 28.0,
+        "coupler": 80.0,
+        "rocker": 55.0,
+        "linkWidth": 12.0,
+        "linkThickness": 6.0,
+        "groundWidth": 16.0,
+        "groundThickness": 5.0,
+        "pivotHoleDiameter": 4.5,
+        "pinBossDiameter": 10.0,
+        "crankAngleDeg": 45.0,
+    }
+    if PARAMS_PATH.exists():
+        params.update(json.loads(PARAMS_PATH.read_text(encoding="utf-8")))
+    return params
+
+
+PARAMS = load_params()
+
+# Mechanism parameters, mm. These are loaded from ../four_bar_params.json.
+GROUND_SPAN = float(PARAMS["ground"])
+CRANK_LENGTH = float(PARAMS["crank"])
+COUPLER_LENGTH = float(PARAMS["coupler"])
+ROCKER_LENGTH = float(PARAMS["rocker"])
+LINK_WIDTH = float(PARAMS["linkWidth"])
+LINK_THICKNESS = float(PARAMS["linkThickness"])
+GROUND_WIDTH = float(PARAMS["groundWidth"])
+GROUND_THICKNESS = float(PARAMS["groundThickness"])
+PIVOT_HOLE_DIAMETER = float(PARAMS["pivotHoleDiameter"])  # M4 clearance
+PIN_BOSS_DIAMETER = float(PARAMS["pinBossDiameter"])
+CRANK_ANGLE_DEG = float(PARAMS["crankAngleDeg"])
 
 
 def circle_intersections(p0, r0, p1, r1):
@@ -81,7 +108,7 @@ def build_model():
     c_candidates = circle_intersections(b, COUPLER_LENGTH, d, ROCKER_LENGTH)
     c = max(c_candidates, key=lambda p: p[1])  # upper/open configuration
 
-    ground = make_link(GROUND_SPAN, width=16, thickness=5)
+    ground = make_link(GROUND_SPAN, width=GROUND_WIDTH, thickness=GROUND_THICKNESS)
     crank = make_link(CRANK_LENGTH)
     coupler = make_link(COUPLER_LENGTH)
     rocker = make_link(ROCKER_LENGTH)

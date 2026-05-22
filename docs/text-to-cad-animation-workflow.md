@@ -308,13 +308,13 @@ const params = { ground: 90, crank: 28, coupler: 80, rocker: 55 };
 
 For now, keep browser parameters synchronized manually with the Python CAD constants.
 
-A future improvement is to move shared parameters into a JSON file, for example:
+Shared parameters now live in a JSON file:
 
 ```text
 demos/four_bar_cad/four_bar_params.json
 ```
 
-Then both Python generation and browser animation can read the same source of truth.
+Both the Python CAD generator and browser animation read this same source of truth. The browser also exposes sliders for ground span, crank, coupler, and rocker lengths for quick kinematic exploration.
 
 ## GitHub commits from the pilot
 
@@ -328,8 +328,8 @@ Key InnovationLab commits:
 
 ## Recommended next steps
 
-1. Move four-bar dimensions into a shared JSON parameter file.
-2. Add UI controls for link lengths, not just crank angle.
-3. Regenerate CAD from shared parameters.
+1. Regenerate CAD artifacts from `four_bar_params.json` whenever committed defaults change.
+2. Add a mechanism-type selector rather than a generic arbitrary “N bars” control.
+3. Add presets for five-bar closed chain, six-bar Watt/Stephenson linkages, slider-crank, Geneva drive, cam follower, quick-return, toggle clamp, and gripper linkage.
 4. Export individual link GLBs and animate the actual CAD meshes in Three.js.
-5. Add additional mechanisms: Geneva drive, cam follower, quick-return, toggle clamp, gripper linkage.
+5. Move mechanism definitions into separate JSON files so each family has its own solver and constraints.
