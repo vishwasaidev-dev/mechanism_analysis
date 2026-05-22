@@ -9,3 +9,7 @@ A source-controlled CAD pilot generated with `earthtojake/text-to-cad` and Pytho
 - Validation: `docs/inspect-four-bar.txt`
 
 Open `index.html` through GitHub Pages for an interactive web view.
+
+Workflow documentation:
+
+- `../../docs/text-to-cad-animation-workflow.md`

@@ -10,6 +10,7 @@ Experimental lab for mining classic mechanism references and turning them into i
 - `demos/mechanism_contact_preview/index.html` — contact/boundary-focused mechanism preview for cam follower and indexing concepts.
 - `demos/mechanism_rapier_physics/index.html` — Rapier 2D/WASM physics prototype with rigid-body contacts for cam follower and indexing experiments.
 - `demos/four_bar_cad/index.html` — source-controlled CAD pilot with Python/build123d, STEP/STL/GLB outputs, and a web model viewer.
+- `docs/text-to-cad-animation-workflow.md` — documented workflow for CAD generation, GLB publishing, and 2D/3D browser animation.
 
 ## Current prototype
 
