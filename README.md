@@ -14,6 +14,7 @@ Experimental lab for mining classic mechanism references and turning them into i
 - `demos/slider_crank/index.html` — rotary-to-linear slider-crank preset with geometry controls and readouts.
 - `demos/geneva_drive/index.html` — intermittent Geneva indexing preset with slot/dwell controls.
 - `demos/cam_follower/index.html` — cam follower preset with multiple lift profiles.
+- `demos/contact_boundary_lab/index.html` — first geometric contact-boundary prototype: nearest point, normal, clearance/penetration, and simple response.
 - `docs/text-to-cad-animation-workflow.md` — documented workflow for CAD generation, GLB publishing, and 2D/3D browser animation.
 
 ## Current prototype
