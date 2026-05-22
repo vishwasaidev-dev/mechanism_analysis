@@ -5,8 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Four-Bar CAD Pilot — InnovationLab</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script type="importmap">
+    {"imports":{"three":"https://unpkg.com/three@0.165.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.165.0/examples/jsm/"}}
+  </script>
   <style>
-    :root{color-scheme:dark;--bg:#07101e;--panel:#0e1b30;--line:#28405f;--text:#eaf2ff;--muted:#9fb0cc;--cyan:#7dd3fc;--green:#86efac;--pink:#f472b6;--yellow:#fde68a}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 25% -10%,#21477f,#07101e 55%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}.shell{max-width:1180px;margin:0 auto;padding:28px}a{color:var(--cyan)}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:20px}.crumb{color:var(--muted);text-decoration:none}h1{font-size:clamp(30px,5vw,54px);margin:12px 0 8px;letter-spacing:-.04em}.lead{max-width:820px;color:var(--muted);font-size:18px;line-height:1.55}.viewer{overflow:hidden;border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,#10203a,#081323);box-shadow:0 30px 90px #0009}model-viewer{width:100%;height:min(72vh,720px);background:radial-gradient(circle at 50% 35%,#263e65,#081323 62%)}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:18px}.card{background:linear-gradient(180deg,#101d33,#0a1424);border:1px solid var(--line);border-radius:22px;padding:18px}.card h2{font-size:18px;margin:0 0 10px}.card p,.card li{color:var(--muted);line-height:1.5}.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#06101c;background:var(--cyan);border:0;border-radius:999px;padding:10px 14px;font-weight:750;cursor:pointer}.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}.tag{display:inline-block;border:1px solid #355b7d;border-radius:999px;padding:4px 9px;color:#bdddff;font-size:12px;margin:4px 4px 0 0}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{border:1px solid #213852;background:#081524;border-radius:16px;padding:12px}.metric b{display:block;color:var(--green);font-size:20px}.metric span{color:var(--muted);font-size:12px}.kinematics{margin-top:18px;display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.sketch{width:100%;height:auto;min-height:360px;border-radius:18px;background:radial-gradient(circle at 50% 20%,#162a49,#07101e 70%);border:1px solid #203755}.link{stroke-linecap:round;stroke-linejoin:round;fill:none}.ground{stroke:#94a3b8;stroke-width:12}.crank{stroke:#7dd3fc;stroke-width:10}.coupler{stroke:#f472b6;stroke-width:10}.rocker{stroke:#86efac;stroke-width:10}.joint{fill:#f8fafc;stroke:#06101c;stroke-width:2}.trace{fill:none;stroke:#fde68a;stroke-width:2;stroke-dasharray:3 6;opacity:.8}.label{fill:#dbeafe;font-size:8px;font-weight:800}.controls{display:grid;gap:14px}.slider-row label{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:8px}input[type=range]{width:100%;accent-color:var(--cyan)}.param-note{font-size:13px;color:var(--muted);margin:0}.readout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;font-variant-numeric:tabular-nums}.readout div{border:1px solid #213852;background:#081524;border-radius:14px;padding:10px}.readout b{display:block;color:var(--yellow)}@media(max-width:900px){.grid,.kinematics{grid-template-columns:1fr}.top{display:block}model-viewer{height:520px}}
+    :root{color-scheme:dark;--bg:#07101e;--panel:#0e1b30;--line:#28405f;--text:#eaf2ff;--muted:#9fb0cc;--cyan:#7dd3fc;--green:#86efac;--pink:#f472b6;--yellow:#fde68a}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 25% -10%,#21477f,#07101e 55%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}.shell{max-width:1180px;margin:0 auto;padding:28px}a{color:var(--cyan)}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:20px}.crumb{color:var(--muted);text-decoration:none}h1{font-size:clamp(30px,5vw,54px);margin:12px 0 8px;letter-spacing:-.04em}.lead{max-width:820px;color:var(--muted);font-size:18px;line-height:1.55}.viewer{overflow:hidden;border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,#10203a,#081323);box-shadow:0 30px 90px #0009}model-viewer{width:100%;height:min(72vh,720px);background:radial-gradient(circle at 50% 35%,#263e65,#081323 62%)}.three-card{margin-top:18px}.three-stage{height:min(64vh,640px);min-height:420px;border-radius:18px;overflow:hidden;border:1px solid #203755;background:radial-gradient(circle at 50% 25%,#182f52,#06101e 70%)}.three-stage canvas{display:block;width:100%;height:100%}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:18px}.card{background:linear-gradient(180deg,#101d33,#0a1424);border:1px solid var(--line);border-radius:22px;padding:18px}.card h2{font-size:18px;margin:0 0 10px}.card p,.card li{color:var(--muted);line-height:1.5}.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#06101c;background:var(--cyan);border:0;border-radius:999px;padding:10px 14px;font-weight:750;cursor:pointer}.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}.tag{display:inline-block;border:1px solid #355b7d;border-radius:999px;padding:4px 9px;color:#bdddff;font-size:12px;margin:4px 4px 0 0}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{border:1px solid #213852;background:#081524;border-radius:16px;padding:12px}.metric b{display:block;color:var(--green);font-size:20px}.metric span{color:var(--muted);font-size:12px}.kinematics{margin-top:18px;display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.sketch{width:100%;height:auto;min-height:360px;border-radius:18px;background:radial-gradient(circle at 50% 20%,#162a49,#07101e 70%);border:1px solid #203755}.link{stroke-linecap:round;stroke-linejoin:round;fill:none}.ground{stroke:#94a3b8;stroke-width:12}.crank{stroke:#7dd3fc;stroke-width:10}.coupler{stroke:#f472b6;stroke-width:10}.rocker{stroke:#86efac;stroke-width:10}.joint{fill:#f8fafc;stroke:#06101c;stroke-width:2}.trace{fill:none;stroke:#fde68a;stroke-width:2;stroke-dasharray:3 6;opacity:.8}.label{fill:#dbeafe;font-size:8px;font-weight:800}.controls{display:grid;gap:14px}.slider-row label{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:8px}input[type=range]{width:100%;accent-color:var(--cyan)}.param-note{font-size:13px;color:var(--muted);margin:0}.readout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;font-variant-numeric:tabular-nums}.readout div{border:1px solid #213852;background:#081524;border-radius:14px;padding:10px}.readout b{display:block;color:var(--yellow)}@media(max-width:900px){.grid,.kinematics{grid-template-columns:1fr}.top{display:block}model-viewer{height:520px}}
   </style>
 </head>
 <body>
@@ -20,6 +23,12 @@
 
     <section class="viewer" aria-label="Interactive 3D model viewer">
       <model-viewer src="./assets/four_bar_linkage_pose_45deg.glb" camera-controls auto-rotate shadow-intensity="0.7" exposure="1.0" camera-orbit="45deg 62deg 170m" field-of-view="30deg" alt="Four-bar linkage CAD model"></model-viewer>
+    </section>
+
+    <section class="card three-card">
+      <h2>Live 3D kinematic animation</h2>
+      <p class="param-note">This is an articulated Three.js mechanism using the same four-bar solver as the 2D sketch. The STEP-derived CAD model above remains the downloadable 45° reference pose.</p>
+      <div id="threeStage" class="three-stage" aria-label="Live 3D four-bar animation"></div>
     </section>
 
     <section class="kinematics">
@@ -80,7 +89,10 @@
       </article>
     </section>
   </main>
-  <script>
+  <script type="module">
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
     const params = { ground: 90, crank: 28, coupler: 80, rocker: 55 };
     const angle = document.querySelector('#angle');
     const angleVal = document.querySelector('#angleVal');
@@ -93,6 +105,7 @@
     const cVal = document.querySelector('#cVal');
     let playing = false;
     let raf = null;
+    const three = initThree();
 
     function intersections(p0, r0, p1, r1) {
       const dx = p1.x - p0.x, dy = p1.y - p0.y;
@@ -133,7 +146,114 @@
       labels.innerHTML = drawLabel('A',p.A)+drawLabel('B',p.B)+drawLabel('C',p.C)+drawLabel('D',p.D);
       bVal.textContent = `${p.B.x.toFixed(1)}, ${p.B.y.toFixed(1)}`;
       cVal.textContent = `${p.C.x.toFixed(1)}, ${p.C.y.toFixed(1)}`;
+      updateThree(p);
     }
+
+    function initThree() {
+      const stage = document.querySelector('#threeStage');
+      const scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(0x07101e, 120, 360);
+      const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 1000);
+      camera.position.set(92, 92, 120);
+      const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.shadowMap.enabled = true;
+      stage.appendChild(renderer.domElement);
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.target.set(45, 0, -28);
+
+      scene.add(new THREE.HemisphereLight(0xbddfff, 0x101522, 2.0));
+      const key = new THREE.DirectionalLight(0xffffff, 2.4);
+      key.position.set(40, 120, 80);
+      key.castShadow = true;
+      scene.add(key);
+
+      const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(180, 130),
+        new THREE.MeshStandardMaterial({ color:0x081524, roughness:0.95, metalness:0.05 })
+      );
+      floor.rotation.x = -Math.PI / 2;
+      floor.position.set(45, -8, -28);
+      floor.receiveShadow = true;
+      scene.add(floor);
+      const grid = new THREE.GridHelper(180, 18, 0x345779, 0x20364f);
+      grid.position.set(45, -7.8, -28);
+      scene.add(grid);
+
+      const mats = {
+        ground: new THREE.MeshStandardMaterial({ color:0x94a3b8, roughness:0.55, metalness:0.25 }),
+        crank: new THREE.MeshStandardMaterial({ color:0x7dd3fc, roughness:0.45, metalness:0.2 }),
+        coupler: new THREE.MeshStandardMaterial({ color:0xf472b6, roughness:0.45, metalness:0.2 }),
+        rocker: new THREE.MeshStandardMaterial({ color:0x86efac, roughness:0.45, metalness:0.2 }),
+        joint: new THREE.MeshStandardMaterial({ color:0xf8fafc, roughness:0.3, metalness:0.35 })
+      };
+      const makeLink = (mat) => {
+        const group = new THREE.Group();
+        const bar = new THREE.Mesh(new THREE.BoxGeometry(1, 7, 10), mat);
+        bar.castShadow = true; bar.receiveShadow = true;
+        group.add(bar);
+        for (const side of [-0.5, 0.5]) {
+          const boss = new THREE.Mesh(new THREE.CylinderGeometry(6, 6, 11, 32), mat);
+          boss.rotation.x = Math.PI / 2;
+          boss.castShadow = true; boss.receiveShadow = true;
+          boss.userData.side = side;
+          group.add(boss);
+        }
+        return group;
+      };
+      const links = {
+        ground: makeLink(mats.ground),
+        crank: makeLink(mats.crank),
+        coupler: makeLink(mats.coupler),
+        rocker: makeLink(mats.rocker)
+      };
+      Object.values(links).forEach(o => scene.add(o));
+      const joints3 = ['A','B','C','D'].reduce((acc, name) => {
+        const pin = new THREE.Mesh(new THREE.CylinderGeometry(3, 3, 26, 32), mats.joint);
+        pin.rotation.x = Math.PI / 2;
+        pin.castShadow = true;
+        scene.add(pin);
+        acc[name] = pin;
+        return acc;
+      }, {});
+
+      const resize = () => {
+        const r = stage.getBoundingClientRect();
+        renderer.setSize(r.width, r.height, false);
+        camera.aspect = r.width / r.height;
+        camera.updateProjectionMatrix();
+      };
+      new ResizeObserver(resize).observe(stage);
+      resize();
+      const render = () => { controls.update(); renderer.render(scene, camera); requestAnimationFrame(render); };
+      render();
+      return { links, joints3 };
+    }
+
+    function placeLink3D(obj, a, b, y) {
+      const midX = (a.x + b.x) / 2;
+      const midZ = -(a.y + b.y) / 2;
+      const dx = b.x - a.x;
+      const dz = -(b.y - a.y);
+      const len = Math.hypot(dx, dz);
+      obj.position.set(midX, y, midZ);
+      obj.rotation.set(0, -Math.atan2(dz, dx), 0);
+      obj.children[0].scale.x = len;
+      for (const child of obj.children.slice(1)) child.position.x = child.userData.side * len;
+    }
+
+    function updateThree(p) {
+      if (!three) return;
+      placeLink3D(three.links.ground, p.A, p.D, 0);
+      placeLink3D(three.links.crank, p.A, p.B, 9);
+      placeLink3D(three.links.coupler, p.B, p.C, 18);
+      placeLink3D(three.links.rocker, p.D, p.C, 9);
+      for (const [name, point] of Object.entries(p)) {
+        three.joints3[name].position.set(point.x, 14, -point.y);
+      }
+    }
+
     function drawTrace() {
       const pts = [];
       for (let deg=0; deg<=360; deg+=4) {
