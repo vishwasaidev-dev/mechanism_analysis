@@ -6,7 +6,7 @@
   <title>Four-Bar CAD Pilot — InnovationLab</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
-    :root{color-scheme:dark;--bg:#07101e;--panel:#0e1b30;--line:#28405f;--text:#eaf2ff;--muted:#9fb0cc;--cyan:#7dd3fc;--green:#86efac;--pink:#f472b6}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 25% -10%,#21477f,#07101e 55%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}.shell{max-width:1180px;margin:0 auto;padding:28px}a{color:var(--cyan)}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:20px}.crumb{color:var(--muted);text-decoration:none}h1{font-size:clamp(30px,5vw,54px);margin:12px 0 8px;letter-spacing:-.04em}.lead{max-width:760px;color:var(--muted);font-size:18px;line-height:1.55}.viewer{overflow:hidden;border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,#10203a,#081323);box-shadow:0 30px 90px #0009}model-viewer{width:100%;height:min(72vh,720px);background:radial-gradient(circle at 50% 35%,#263e65,#081323 62%)}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:18px}.card{background:linear-gradient(180deg,#101d33,#0a1424);border:1px solid var(--line);border-radius:22px;padding:18px}.card h2{font-size:18px;margin:0 0 10px}.card p,.card li{color:var(--muted);line-height:1.5}.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#06101c;background:var(--cyan);border-radius:999px;padding:10px 14px;font-weight:750}.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}.tag{display:inline-block;border:1px solid #355b7d;border-radius:999px;padding:4px 9px;color:#bdddff;font-size:12px;margin:4px 4px 0 0}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{border:1px solid #213852;background:#081524;border-radius:16px;padding:12px}.metric b{display:block;color:var(--green);font-size:20px}.metric span{color:var(--muted);font-size:12px}@media(max-width:820px){.grid{grid-template-columns:1fr}.top{display:block}model-viewer{height:520px}}
+    :root{color-scheme:dark;--bg:#07101e;--panel:#0e1b30;--line:#28405f;--text:#eaf2ff;--muted:#9fb0cc;--cyan:#7dd3fc;--green:#86efac;--pink:#f472b6;--yellow:#fde68a}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 25% -10%,#21477f,#07101e 55%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}.shell{max-width:1180px;margin:0 auto;padding:28px}a{color:var(--cyan)}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:20px}.crumb{color:var(--muted);text-decoration:none}h1{font-size:clamp(30px,5vw,54px);margin:12px 0 8px;letter-spacing:-.04em}.lead{max-width:820px;color:var(--muted);font-size:18px;line-height:1.55}.viewer{overflow:hidden;border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,#10203a,#081323);box-shadow:0 30px 90px #0009}model-viewer{width:100%;height:min(72vh,720px);background:radial-gradient(circle at 50% 35%,#263e65,#081323 62%)}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:18px}.card{background:linear-gradient(180deg,#101d33,#0a1424);border:1px solid var(--line);border-radius:22px;padding:18px}.card h2{font-size:18px;margin:0 0 10px}.card p,.card li{color:var(--muted);line-height:1.5}.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#06101c;background:var(--cyan);border:0;border-radius:999px;padding:10px 14px;font-weight:750;cursor:pointer}.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}.tag{display:inline-block;border:1px solid #355b7d;border-radius:999px;padding:4px 9px;color:#bdddff;font-size:12px;margin:4px 4px 0 0}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{border:1px solid #213852;background:#081524;border-radius:16px;padding:12px}.metric b{display:block;color:var(--green);font-size:20px}.metric span{color:var(--muted);font-size:12px}.kinematics{margin-top:18px;display:grid;grid-template-columns:1.25fr .75fr;gap:18px}.sketch{width:100%;height:auto;min-height:360px;border-radius:18px;background:radial-gradient(circle at 50% 20%,#162a49,#07101e 70%);border:1px solid #203755}.link{stroke-linecap:round;stroke-linejoin:round;fill:none}.ground{stroke:#94a3b8;stroke-width:12}.crank{stroke:#7dd3fc;stroke-width:10}.coupler{stroke:#f472b6;stroke-width:10}.rocker{stroke:#86efac;stroke-width:10}.joint{fill:#f8fafc;stroke:#06101c;stroke-width:2}.trace{fill:none;stroke:#fde68a;stroke-width:2;stroke-dasharray:3 6;opacity:.8}.label{fill:#dbeafe;font-size:8px;font-weight:800}.controls{display:grid;gap:14px}.slider-row label{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:8px}input[type=range]{width:100%;accent-color:var(--cyan)}.param-note{font-size:13px;color:var(--muted);margin:0}.readout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;font-variant-numeric:tabular-nums}.readout div{border:1px solid #213852;background:#081524;border-radius:14px;padding:10px}.readout b{display:block;color:var(--yellow)}@media(max-width:900px){.grid,.kinematics{grid-template-columns:1fr}.top{display:block}model-viewer{height:520px}}
   </style>
 </head>
 <body>
@@ -16,10 +16,44 @@
       <span class="tag">text-to-cad pilot</span>
     </div>
     <h1>Four-Bar Linkage CAD Pilot</h1>
-    <p class="lead">A first source-controlled mechanism CAD test: Python/build123d source generates STEP, STL, and GLB artifacts for a planar four-bar linkage pose.</p>
+    <p class="lead">A first source-controlled mechanism CAD test: Python/build123d source generates STEP, STL, and GLB artifacts. The 3D CAD model below is a static 45° pose; the parameter panel animates the linkage kinematics live in-browser.</p>
 
     <section class="viewer" aria-label="Interactive 3D model viewer">
       <model-viewer src="./assets/four_bar_linkage_pose_45deg.glb" camera-controls auto-rotate shadow-intensity="0.7" exposure="1.0" camera-orbit="45deg 62deg 170m" field-of-view="30deg" alt="Four-bar linkage CAD model"></model-viewer>
+    </section>
+
+    <section class="kinematics">
+      <article class="card">
+        <h2>Live kinematic parameters</h2>
+        <svg id="sketch" class="sketch" viewBox="-20 -20 130 105" role="img" aria-label="Animated four-bar linkage sketch">
+          <path id="trace" class="trace"></path>
+          <line id="ground" class="link ground"></line>
+          <line id="crank" class="link crank"></line>
+          <line id="coupler" class="link coupler"></line>
+          <line id="rocker" class="link rocker"></line>
+          <g id="joints"></g>
+          <g id="labels"></g>
+        </svg>
+      </article>
+      <article class="card controls">
+        <div>
+          <h2>Controls</h2>
+          <p class="param-note">These are browser-side kinematic parameters. To make new CAD/STEP from them, edit the matching constants in <code>src/four_bar_linkage.py</code> and regenerate.</p>
+        </div>
+        <div class="slider-row">
+          <label><span>Crank angle</span><strong><span id="angleVal">45</span>°</strong></label>
+          <input id="angle" type="range" min="0" max="360" value="45" step="1" />
+        </div>
+        <button id="play" class="btn" type="button">Play animation</button>
+        <div class="readout">
+          <div><span>Ground</span><b id="groundVal">90 mm</b></div>
+          <div><span>Crank</span><b id="crankVal">28 mm</b></div>
+          <div><span>Coupler</span><b id="couplerVal">80 mm</b></div>
+          <div><span>Rocker</span><b id="rockerVal">55 mm</b></div>
+          <div><span>Joint B</span><b id="bVal">—</b></div>
+          <div><span>Joint C</span><b id="cVal">—</b></div>
+        </div>
+      </article>
     </section>
 
     <section class="grid">
@@ -42,9 +76,86 @@
           <div class="metric"><b>80 mm</b><span>coupler</span></div>
           <div class="metric"><b>55 mm</b><span>output rocker</span></div>
         </div>
-        <p><span class="tag">M4 clearance holes</span><span class="tag">45° pose</span><span class="tag">STEP-first</span></p>
+        <p><span class="tag">M4 clearance holes</span><span class="tag">45° CAD pose</span><span class="tag">STEP-first</span><span class="tag">JS kinematics</span></p>
       </article>
     </section>
   </main>
+  <script>
+    const params = { ground: 90, crank: 28, coupler: 80, rocker: 55 };
+    const angle = document.querySelector('#angle');
+    const angleVal = document.querySelector('#angleVal');
+    const play = document.querySelector('#play');
+    const els = ['ground','crank','coupler','rocker'].reduce((o,id)=>(o[id]=document.querySelector('#'+id),o),{});
+    const joints = document.querySelector('#joints');
+    const labels = document.querySelector('#labels');
+    const trace = document.querySelector('#trace');
+    const bVal = document.querySelector('#bVal');
+    const cVal = document.querySelector('#cVal');
+    let playing = false;
+    let raf = null;
+
+    function intersections(p0, r0, p1, r1) {
+      const dx = p1.x - p0.x, dy = p1.y - p0.y;
+      const d = Math.hypot(dx, dy);
+      const a = (r0*r0 - r1*r1 + d*d) / (2*d);
+      const h = Math.sqrt(Math.max(r0*r0 - a*a, 0));
+      const xm = p0.x + a * dx / d, ym = p0.y + a * dy / d;
+      const rx = -dy * h / d, ry = dx * h / d;
+      return [{x:xm+rx,y:ym+ry}, {x:xm-rx,y:ym-ry}];
+    }
+    function solve(deg) {
+      const A = {x:0,y:0};
+      const D = {x:params.ground,y:0};
+      const t = deg * Math.PI / 180;
+      const B = {x:params.crank*Math.cos(t), y:params.crank*Math.sin(t)};
+      const C = intersections(B, params.coupler, D, params.rocker).sort((a,b)=>b.y-a.y)[0];
+      return {A,B,C,D};
+    }
+    function setLine(el, a, b) {
+      el.setAttribute('x1', a.x); el.setAttribute('y1', -a.y);
+      el.setAttribute('x2', b.x); el.setAttribute('y2', -b.y);
+    }
+    function drawJoint(name, p) {
+      return `<circle class="joint" cx="${p.x}" cy="${-p.y}" r="3.2"><title>${name}</title></circle>`;
+    }
+    function drawLabel(name, p, dx=4, dy=-4) {
+      return `<text class="label" x="${p.x+dx}" y="${-p.y+dy}">${name}</text>`;
+    }
+    function update() {
+      const deg = Number(angle.value);
+      const p = solve(deg);
+      angleVal.textContent = Math.round(deg);
+      setLine(els.ground, p.A, p.D);
+      setLine(els.crank, p.A, p.B);
+      setLine(els.coupler, p.B, p.C);
+      setLine(els.rocker, p.D, p.C);
+      joints.innerHTML = drawJoint('A',p.A)+drawJoint('B',p.B)+drawJoint('C',p.C)+drawJoint('D',p.D);
+      labels.innerHTML = drawLabel('A',p.A)+drawLabel('B',p.B)+drawLabel('C',p.C)+drawLabel('D',p.D);
+      bVal.textContent = `${p.B.x.toFixed(1)}, ${p.B.y.toFixed(1)}`;
+      cVal.textContent = `${p.C.x.toFixed(1)}, ${p.C.y.toFixed(1)}`;
+    }
+    function drawTrace() {
+      const pts = [];
+      for (let deg=0; deg<=360; deg+=4) {
+        const {C} = solve(deg);
+        pts.push(`${pts.length?'L':'M'}${C.x.toFixed(2)},${(-C.y).toFixed(2)}`);
+      }
+      trace.setAttribute('d', pts.join(' '));
+    }
+    function tick() {
+      if (!playing) return;
+      angle.value = (Number(angle.value) + 1) % 361;
+      update();
+      raf = requestAnimationFrame(tick);
+    }
+    angle.addEventListener('input', update);
+    play.addEventListener('click', () => {
+      playing = !playing;
+      play.textContent = playing ? 'Pause animation' : 'Play animation';
+      if (playing) tick(); else cancelAnimationFrame(raf);
+    });
+    drawTrace();
+    update();
+  </script>
 </body>
 </html>
