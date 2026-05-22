@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pin-in-Slot Yoke Lab — InnovationLab</title>
+  <style>
+    :root{color-scheme:dark;--line:#28405f;--text:#eaf2ff;--muted:#9fb0cc;--cyan:#7dd3fc;--pink:#f472b6;--green:#86efac;--yellow:#fde68a;--red:#fb7185}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 35% -10%,#254c82,#07101e 58%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}.shell{max-width:1220px;margin:0 auto;padding:28px}.crumb{color:var(--muted);text-decoration:none}h1{font-size:clamp(32px,5vw,56px);margin:16px 0 8px;letter-spacing:-.04em}.lead{max-width:900px;color:var(--muted);font-size:18px;line-height:1.55}.layout{display:grid;grid-template-columns:1.35fr .65fr;gap:18px;margin-top:22px}.card{background:linear-gradient(180deg,#101d33,#0a1424);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 24px 60px #0007}.stage{width:100%;min-height:650px;border-radius:18px;background:radial-gradient(circle at 50% 45%,#162a49,#06101e 72%);border:1px solid #203755}.controls{display:grid;gap:15px}.row label{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:8px}input,select{width:100%;accent-color:var(--cyan)}select{background:#081524;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:10px}.buttons{display:flex;flex-wrap:wrap;gap:10px}.btn{border:0;border-radius:999px;padding:10px 14px;background:var(--cyan);color:#06101c;font-weight:800;cursor:pointer}.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}.readout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;font-variant-numeric:tabular-nums}.metric{border:1px solid #213852;background:#081524;border-radius:14px;padding:10px}.metric span{color:var(--muted);font-size:12px}.metric b{display:block;color:var(--yellow)}.note{color:var(--muted);line-height:1.5}.tag{display:inline-block;border:1px solid #355b7d;border-radius:999px;padding:4px 9px;color:#bdddff;font-size:12px;margin:4px 4px 0 0}.axis{stroke:#315271;stroke-width:.8;stroke-dasharray:2 3}.ground{stroke:#94a3b8;stroke-width:4;stroke-linecap:round}.crank{stroke:#7dd3fc;stroke-width:7;stroke-linecap:round}.pin{fill:#fde68a;stroke:#06101c;stroke-width:2}.yoke{fill:#13294a;stroke:#86efac;stroke-width:4}.slot{fill:none;stroke:#07101e;stroke-width:19;stroke-linecap:round}.slotEdge{fill:none;stroke:#86efac;stroke-width:3;stroke-linecap:round}.contact{fill:#fb7185;stroke:#ffd1d8;stroke-width:2}.normal{stroke:#fb7185;stroke-width:3;stroke-linecap:round}.gap{stroke:#fde68a;stroke-width:2;stroke-dasharray:4 5}.trace{fill:none;stroke:#f472b6;stroke-width:2;stroke-dasharray:5 7}.guide{fill:#081524;stroke:#94a3b8;stroke-width:3}.label{fill:#dbeafe;font-size:7px;font-weight:800}.warn{display:none;color:#fecaca;background:#451a1a;border:1px solid #7f1d1d;border-radius:12px;padding:10px}.warn.show{display:block}@media(max-width:920px){.layout{grid-template-columns:1fr}.stage{min-height:480px}.readout{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <a class="crumb" href="../../">← InnovationLab</a>
+    <h1>Pin-in-Slot Yoke Lab</h1>
+    <p class="lead">A first boundary-driven mechanism: a crank pin enters a slot, finds the closest slot wall, and drives a constrained yoke by contact instead of a pre-solved linkage equation.</p>
+
+    <section class="layout">
+      <article class="card">
+        <svg id="stage" class="stage" viewBox="-130 -115 260 230" role="img" aria-label="Pin-in-slot contact mechanism">
+          <line class="axis" x1="-125" y1="0" x2="125" y2="0"/>
+          <line class="axis" x1="0" y1="-110" x2="0" y2="110"/>
+          <path id="trace" class="trace"/>
+          <g id="scene"></g>
+        </svg>
+      </article>
+      <aside class="card controls">
+        <div>
+          <h2>Contact-driven yoke</h2>
+          <p class="note">The yoke has one allowed DOF. The crank pin is tested against the slot walls; penetration/contact projects into yoke motion.</p>
+        </div>
+        <div class="row"><label><span>Yoke constraint</span><strong id="modeLabel">Horizontal slider</strong></label><select id="mode"><option value="slideX">Horizontal slider</option><option value="slideY">Vertical slider</option><option value="rotate">Rocking yoke</option></select></div>
+        <div class="row"><label><span>Crank radius</span><strong><span id="rVal">46</span> mm</strong></label><input id="radius" type="range" min="24" max="72" value="46" step="1"/></div>
+        <div class="row"><label><span>Slot angle</span><strong><span id="slotVal">0</span>°</strong></label><input id="slotAngle" type="range" min="-70" max="70" value="0" step="1"/></div>
+        <div class="row"><label><span>Slot length</span><strong><span id="lenVal">105</span> mm</strong></label><input id="slotLen" type="range" min="55" max="145" value="105" step="1"/></div>
+        <div class="row"><label><span>Slot clearance</span><strong><span id="clearVal">16</span> mm</strong></label><input id="slotHalf" type="range" min="8" max="26" value="16" step="1"/></div>
+        <div class="row"><label><span>Pin radius</span><strong><span id="pinVal">8</span> mm</strong></label><input id="pinR" type="range" min="4" max="16" value="8" step="1"/></div>
+        <div class="row"><label><span>Speed</span><strong><span id="speedVal">1.0×</span></strong></label><input id="speed" type="range" min="0" max="3" value="1" step="0.1"/></div>
+        <div id="warn" class="warn">Pin cannot reach the slot for part of this cycle. Increase crank radius or slot length.</div>
+        <div class="buttons"><button id="play" class="btn" type="button">Pause</button><button id="reset" class="btn secondary" type="button">Reset</button></div>
+        <div class="readout">
+          <div class="metric"><span>Yoke DOF</span><b id="dofOut">—</b></div>
+          <div class="metric"><span>Wall</span><b id="wallOut">—</b></div>
+          <div class="metric"><span>Clearance</span><b id="gapOut">—</b></div>
+          <div class="metric"><span>Drive component</span><b id="driveOut">—</b></div>
+        </div>
+        <p><span class="tag">pin-slot contact</span><span class="tag">one DOF constraint</span><span class="tag">motion transfer</span></p>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const $=s=>document.querySelector(s); const scene=$('#scene'), trace=$('#trace');
+    const ui={mode:$('#mode'),radius:$('#radius'),slotAngle:$('#slotAngle'),slotLen:$('#slotLen'),slotHalf:$('#slotHalf'),pinR:$('#pinR'),speed:$('#speed'),play:$('#play'),reset:$('#reset')};
+    let theta=0, playing=true;
+    function p(x,y){return {x,y};} function add(a,b){return p(a.x+b.x,a.y+b.y)} function sub(a,b){return p(a.x-b.x,a.y-b.y)} function mul(a,k){return p(a.x*k,a.y*k)} function dot(a,b){return a.x*b.x+a.y*b.y} function len(a){return Math.hypot(a.x,a.y)} function norm(a){const l=len(a)||1;return p(a.x/l,a.y/l)} function rot(v,a){const c=Math.cos(a),s=Math.sin(a);return p(v.x*c-v.y*s,v.x*s+v.y*c)} function clamp(x,a,b){return Math.max(a,Math.min(b,x))}
+    function pinAt(a){const r=+ui.radius.value; return p(r*Math.cos(a)-44,r*Math.sin(a));}
+    function slotAxes(){const a=+ui.slotAngle.value*Math.PI/180; return {u:rot(p(1,0),a), n:rot(p(0,1),a)};}
+    function solveYoke(pin){
+      const mode=ui.mode.value, L=+ui.slotLen.value/2, half=+ui.slotHalf.value, pr=+ui.pinR.value, axes=slotAxes();
+      let q=0, best=null;
+      // Search one allowed yoke coordinate. This is intentionally geometric/brute force for clarity.
+      const min=mode==='rotate'?-0.95:-80, max=mode==='rotate'?0.95:80;
+      for(let i=0;i<=280;i++){
+        const cand=min+(max-min)*i/280;
+        const pose=slotPose(cand);
+        const rel=sub(pin,pose.c); const x=dot(rel,pose.u), y=dot(rel,pose.n);
+        const clampedX=clamp(x,-L,L); const onCenter=add(pose.c,add(mul(pose.u,clampedX),mul(pose.n,clamp(y,-half,half))));
+        const dx=Math.abs(x)-L, dy=Math.abs(y)-half;
+        let dist, nearest, normal, wall;
+        if(dx<=0 && dy<=0){
+          const sideGap=half-Math.abs(y), endGap=L-Math.abs(x);
+          if(sideGap<endGap){normal=mul(pose.n,Math.sign(y)||1); nearest=add(pose.c,add(mul(pose.u,x),mul(pose.n,Math.sign(y)*half))); wall=y>=0?'upper wall':'lower wall'; dist=-sideGap;}
+          else {normal=mul(pose.u,Math.sign(x)||1); nearest=add(pose.c,add(mul(pose.u,Math.sign(x)*L),mul(pose.n,y))); wall=x>=0?'right end':'left end'; dist=-endGap;}
+        } else {
+          nearest=onCenter; normal=norm(sub(pin,nearest)); wall=Math.abs(dx)>Math.abs(dy)?'end cap':'slot wall'; dist=len(sub(pin,nearest));
+        }
+        const clearance=dist-pr;
+        const score=Math.abs(clearance)+Math.max(0,Math.abs(x)-L)*0.15;
+        if(!best || score<best.score) best={q:cand,pose,x,y,nearest,normal,wall,clearance,score};
+      }
+      return best;
+    }
+    function slotPose(q){
+      const axes=slotAxes();
+      if(ui.mode.value==='slideX') return {c:p(q+26,0), u:axes.u, n:axes.n, angle:+ui.slotAngle.value*Math.PI/180};
+      if(ui.mode.value==='slideY') return {c:p(18,q), u:axes.u, n:axes.n, angle:+ui.slotAngle.value*Math.PI/180};
+      const base=p(28,0), a=q + +ui.slotAngle.value*Math.PI/180; return {c:base, u:rot(p(1,0),a), n:rot(p(0,1),a), angle:a};
+    }
+    function slotShape(pose){const L=+ui.slotLen.value/2, h=+ui.slotHalf.value;const corners=[add(pose.c,add(mul(pose.u,-L),mul(pose.n,-h))),add(pose.c,add(mul(pose.u,L),mul(pose.n,-h))),add(pose.c,add(mul(pose.u,L),mul(pose.n,h))),add(pose.c,add(mul(pose.u,-L),mul(pose.n,h)))];return corners.map((v,i)=>`${i?'L':'M'}${v.x.toFixed(2)},${v.y.toFixed(2)}`).join(' ')+'Z'}
+    function draw(){
+      const pin=pinAt(theta), sol=solveYoke(pin), pose=sol.pose, L=+ui.slotLen.value/2, pr=+ui.pinR.value;
+      const a=theta, crankCenter=p(-44,0), contact=add(sol.nearest,mul(sol.normal,pr)); const drive=dot(sol.normal, ui.mode.value==='slideX'?p(1,0):ui.mode.value==='slideY'?p(0,1):p(-Math.sin(sol.q),Math.cos(sol.q)));
+      scene.innerHTML=`<line class="guide" x1="-112" y1="${ui.mode.value==='slideY'?'-86':'0'}" x2="112" y2="${ui.mode.value==='slideY'?'-86':'0'}"/><line class="ground" x1="${crankCenter.x}" y1="${crankCenter.y}" x2="${pin.x}" y2="${pin.y}"/><circle class="ground" cx="${crankCenter.x}" cy="${crankCenter.y}" r="${+ui.radius.value}" fill="none" opacity=".25"/><path class="yoke" d="${slotShape(pose)}"/><line class="slot" x1="${pose.c.x-pose.u.x*L}" y1="${pose.c.y-pose.u.y*L}" x2="${pose.c.x+pose.u.x*L}" y2="${pose.c.y+pose.u.y*L}"/><line class="slotEdge" x1="${pose.c.x-pose.u.x*L}" y1="${pose.c.y-pose.u.y*L}" x2="${pose.c.x+pose.u.x*L}" y2="${pose.c.y+pose.u.y*L}"/><line class="gap" x1="${sol.nearest.x}" y1="${sol.nearest.y}" x2="${pin.x}" y2="${pin.y}"/><line class="normal" x1="${sol.nearest.x}" y1="${sol.nearest.y}" x2="${sol.nearest.x+sol.normal.x*24}" y2="${sol.nearest.y+sol.normal.y*24}"/><circle class="contact" cx="${sol.nearest.x}" cy="${sol.nearest.y}" r="3.5"/><circle class="pin" cx="${pin.x}" cy="${pin.y}" r="${pr}"/><circle class="pin" cx="${crankCenter.x}" cy="${crankCenter.y}" r="4"/><text class="label" x="${sol.nearest.x+5}" y="${sol.nearest.y-6}">${sol.wall}</text>`;
+      $('#rVal').textContent=ui.radius.value; $('#slotVal').textContent=ui.slotAngle.value; $('#lenVal').textContent=ui.slotLen.value; $('#clearVal').textContent=ui.slotHalf.value; $('#pinVal').textContent=ui.pinR.value; $('#speedVal').textContent=(+ui.speed.value).toFixed(1)+'×'; $('#modeLabel').textContent=ui.mode.options[ui.mode.selectedIndex].text; $('#dofOut').textContent=ui.mode.value==='rotate'?`${(sol.q*180/Math.PI).toFixed(1)}°`:`${sol.q.toFixed(1)} mm`; $('#wallOut').textContent=sol.wall; $('#gapOut').textContent=sol.clearance.toFixed(2)+' mm'; $('#driveOut').textContent=drive.toFixed(2); $('#warn').classList.toggle('show', sol.clearance>12); drawTrace();
+    }
+    function drawTrace(){let d='';for(let i=0;i<=160;i++){const pin=pinAt(i/160*Math.PI*2), sol=solveYoke(pin); const c=sol.pose.c; d+=`${d?'L':'M'}${c.x.toFixed(2)},${c.y.toFixed(2)}`;} trace.setAttribute('d',d)}
+    function tick(){if(playing)theta=(theta+0.028*(+ui.speed.value))%(Math.PI*2);draw();requestAnimationFrame(tick)}
+    Object.values(ui).forEach(el=>el.addEventListener?.('input',draw)); ui.play.onclick=()=>{playing=!playing;ui.play.textContent=playing?'Pause':'Play'}; ui.reset.onclick=()=>{ui.mode.value='slideX';ui.radius.value=46;ui.slotAngle.value=0;ui.slotLen.value=105;ui.slotHalf.value=16;ui.pinR.value=8;ui.speed.value=1;theta=0;draw()}; tick();
+  </script>
+</body>
+</html>
