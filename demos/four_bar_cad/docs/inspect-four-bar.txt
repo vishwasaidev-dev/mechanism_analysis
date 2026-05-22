@@ -1,0 +1,352 @@
+{
+  "ok": true,
+  "tokens": [
+    {
+      "line": 1,
+      "token": "@cad[STEP/four_bar_linkage_pose_45deg]",
+      "cadPath": "STEP/four_bar_linkage_pose_45deg",
+      "stepPath": "STEP/four_bar_linkage_pose_45deg.step",
+      "stepHash": "39b10df5e6310524421183c8d009d40249ced7d9121ea3695d65f128cf2ff92d",
+      "summary": {
+        "kind": "part",
+        "occurrenceCount": 5,
+        "leafOccurrenceCount": 4,
+        "shapeCount": 4,
+        "faceCount": 64,
+        "edgeCount": 120,
+        "vertexCount": 0,
+        "bounds": {
+          "min": [
+            -8.483963,
+            -8.483963,
+            -3.0
+          ],
+          "max": [
+            99.675851,
+            63.001488,
+            17.5
+          ]
+        }
+      },
+      "selections": [],
+      "warnings": [],
+      "entryFacts": {
+        "size": [
+          108.159814,
+          71.485451,
+          20.5
+        ],
+        "extentAxis": "x",
+        "center": [
+          45.595943999999996,
+          27.258762500000003,
+          7.25
+        ],
+        "diag": 131.2591523254207,
+        "kind": "part"
+      },
+      "planes": [
+        {
+          "axis": "z",
+          "coordinate": -2.5,
+          "normalSign": -1,
+          "faceCount": 1,
+          "totalArea": 1483.964071,
+          "bbox": {
+            "min": [
+              -7.997513,
+              -8.0,
+              -2.5
+            ],
+            "max": [
+              97.997513,
+              8.0,
+              -2.5
+            ]
+          },
+          "selectors": [
+            "o1.1.f8"
+          ]
+        },
+        {
+          "axis": "z",
+          "coordinate": 2.5,
+          "normalSign": 1,
+          "faceCount": 1,
+          "totalArea": 1483.964071,
+          "bbox": {
+            "min": [
+              -7.997513,
+              -8.0,
+              2.5
+            ],
+            "max": [
+              97.997513,
+              8.0,
+              2.5
+            ]
+          },
+          "selectors": [
+            "o1.1.f1"
+          ]
+        },
+        {
+          "axis": "z",
+          "coordinate": 11.0,
+          "normalSign": -1,
+          "faceCount": 1,
+          "totalArea": 916.035929,
+          "bbox": {
+            "min": [
+              11.773587,
+              11.772732,
+              11.0
+            ],
+            "max": [
+              99.675851,
+              63.001488,
+              11.0
+            ]
+          },
+          "selectors": [
+            "o1.3.f8"
+          ]
+        },
+        {
+          "axis": "z",
+          "coordinate": 17.0,
+          "normalSign": 1,
+          "faceCount": 1,
+          "totalArea": 916.035929,
+          "bbox": {
+            "min": [
+              11.773587,
+              11.772732,
+              17.0
+            ],
+            "max": [
+              99.675851,
+              63.001488,
+              17.0
+            ]
+          },
+          "selectors": [
+            "o1.3.f1"
+          ]
+        },
+        {
+          "axis": "z",
+          "coordinate": 4.0,
+          "normalSign": -1,
+          "faceCount": 2,
+          "totalArea": 908.071858,
+          "bbox": {
+            "min": [
+              -8.483963,
+              -8.483963,
+              4.0
+            ],
+            "max": [
+              97.827739,
+              61.150714,
+              4.0
+            ]
+          },
+          "selectors": [
+            "o1.2.f8",
+            "o1.4.f8"
+          ]
+        },
+        {
+          "axis": "z",
+          "coordinate": 10.0,
+          "normalSign": 1,
+          "faceCount": 2,
+          "totalArea": 908.071858,
+          "bbox": {
+            "min": [
+              -8.483963,
+              -8.483963,
+              10.0
+            ],
+            "max": [
+              97.827739,
+              61.150714,
+              10.0
+            ]
+          },
+          "selectors": [
+            "o1.2.f1",
+            "o1.4.f1"
+          ]
+        }
+      ],
+      "entryPositioning": {
+        "kind": "part",
+        "bbox": {
+          "min": [
+            -8.483963,
+            -8.483963,
+            -3.0
+          ],
+          "max": [
+            99.675851,
+            63.001488,
+            17.5
+          ]
+        },
+        "bboxFacts": {
+          "size": [
+            108.159814,
+            71.485451,
+            20.5
+          ],
+          "extentAxis": "x",
+          "center": [
+            45.595943999999996,
+            27.258762500000003,
+            7.25
+          ],
+          "diag": 131.2591523254207
+        },
+        "majorPlanes": [
+          {
+            "axis": "z",
+            "coordinate": -2.5,
+            "normalSign": -1,
+            "faceCount": 1,
+            "totalArea": 1483.964071,
+            "bbox": {
+              "min": [
+                -7.997513,
+                -8.0,
+                -2.5
+              ],
+              "max": [
+                97.997513,
+                8.0,
+                -2.5
+              ]
+            },
+            "selectors": [
+              "o1.1.f8"
+            ]
+          },
+          {
+            "axis": "z",
+            "coordinate": 2.5,
+            "normalSign": 1,
+            "faceCount": 1,
+            "totalArea": 1483.964071,
+            "bbox": {
+              "min": [
+                -7.997513,
+                -8.0,
+                2.5
+              ],
+              "max": [
+                97.997513,
+                8.0,
+                2.5
+              ]
+            },
+            "selectors": [
+              "o1.1.f1"
+            ]
+          },
+          {
+            "axis": "z",
+            "coordinate": 11.0,
+            "normalSign": -1,
+            "faceCount": 1,
+            "totalArea": 916.035929,
+            "bbox": {
+              "min": [
+                11.773587,
+                11.772732,
+                11.0
+              ],
+              "max": [
+                99.675851,
+                63.001488,
+                11.0
+              ]
+            },
+            "selectors": [
+              "o1.3.f8"
+            ]
+          },
+          {
+            "axis": "z",
+            "coordinate": 17.0,
+            "normalSign": 1,
+            "faceCount": 1,
+            "totalArea": 916.035929,
+            "bbox": {
+              "min": [
+                11.773587,
+                11.772732,
+                17.0
+              ],
+              "max": [
+                99.675851,
+                63.001488,
+                17.0
+              ]
+            },
+            "selectors": [
+              "o1.3.f1"
+            ]
+          },
+          {
+            "axis": "z",
+            "coordinate": 4.0,
+            "normalSign": -1,
+            "faceCount": 2,
+            "totalArea": 908.071858,
+            "bbox": {
+              "min": [
+                -8.483963,
+                -8.483963,
+                4.0
+              ],
+              "max": [
+                97.827739,
+                61.150714,
+                4.0
+              ]
+            },
+            "selectors": [
+              "o1.2.f8",
+              "o1.4.f8"
+            ]
+          },
+          {
+            "axis": "z",
+            "coordinate": 10.0,
+            "normalSign": 1,
+            "faceCount": 2,
+            "totalArea": 908.071858,
+            "bbox": {
+              "min": [
+                -8.483963,
+                -8.483963,
+                10.0
+              ],
+              "max": [
+                97.827739,
+                61.150714,
+                10.0
+              ]
+            },
+            "selectors": [
+              "o1.2.f1",
+              "o1.4.f1"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "errors": []
+}

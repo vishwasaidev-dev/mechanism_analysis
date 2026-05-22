@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Four-Bar CAD Pilot — InnovationLab</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    :root{color-scheme:dark;--bg:#07101e;--panel:#0e1b30;--line:#28405f;--text:#eaf2ff;--muted:#9fb0cc;--cyan:#7dd3fc;--green:#86efac;--pink:#f472b6}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 25% -10%,#21477f,#07101e 55%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}.shell{max-width:1180px;margin:0 auto;padding:28px}a{color:var(--cyan)}.top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:20px}.crumb{color:var(--muted);text-decoration:none}h1{font-size:clamp(30px,5vw,54px);margin:12px 0 8px;letter-spacing:-.04em}.lead{max-width:760px;color:var(--muted);font-size:18px;line-height:1.55}.viewer{overflow:hidden;border:1px solid var(--line);border-radius:28px;background:linear-gradient(180deg,#10203a,#081323);box-shadow:0 30px 90px #0009}model-viewer{width:100%;height:min(72vh,720px);background:radial-gradient(circle at 50% 35%,#263e65,#081323 62%)}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:18px}.card{background:linear-gradient(180deg,#101d33,#0a1424);border:1px solid var(--line);border-radius:22px;padding:18px}.card h2{font-size:18px;margin:0 0 10px}.card p,.card li{color:var(--muted);line-height:1.5}.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:#06101c;background:var(--cyan);border-radius:999px;padding:10px 14px;font-weight:750}.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}.tag{display:inline-block;border:1px solid #355b7d;border-radius:999px;padding:4px 9px;color:#bdddff;font-size:12px;margin:4px 4px 0 0}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.metric{border:1px solid #213852;background:#081524;border-radius:16px;padding:12px}.metric b{display:block;color:var(--green);font-size:20px}.metric span{color:var(--muted);font-size:12px}@media(max-width:820px){.grid{grid-template-columns:1fr}.top{display:block}model-viewer{height:520px}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="top">
+      <a class="crumb" href="../../">← InnovationLab</a>
+      <span class="tag">text-to-cad pilot</span>
+    </div>
+    <h1>Four-Bar Linkage CAD Pilot</h1>
+    <p class="lead">A first source-controlled mechanism CAD test: Python/build123d source generates STEP, STL, and GLB artifacts for a planar four-bar linkage pose.</p>
+
+    <section class="viewer" aria-label="Interactive 3D model viewer">
+      <model-viewer src="./assets/four_bar_linkage_pose_45deg.glb" camera-controls auto-rotate shadow-intensity="0.7" exposure="1.0" camera-orbit="45deg 62deg 170m" field-of-view="30deg" alt="Four-bar linkage CAD model"></model-viewer>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <h2>Downloads</h2>
+        <p>Use the GLB for web viewing, STEP for CAD exchange, and STL for mesh workflows.</p>
+        <div class="links">
+          <a class="btn" href="./assets/four_bar_linkage_pose_45deg.glb" download>Download GLB</a>
+          <a class="btn secondary" href="./assets/four_bar_linkage_pose_45deg.step" download>STEP</a>
+          <a class="btn secondary" href="./assets/four_bar_linkage_pose_45deg.stl" download>STL</a>
+          <a class="btn secondary" href="./src/four_bar_linkage.py">Source Python</a>
+          <a class="btn secondary" href="./docs/inspect-four-bar.txt">Validation report</a>
+        </div>
+      </article>
+      <article class="card">
+        <h2>Model assumptions</h2>
+        <div class="metrics">
+          <div class="metric"><b>90 mm</b><span>ground pivot span</span></div>
+          <div class="metric"><b>28 mm</b><span>input crank</span></div>
+          <div class="metric"><b>80 mm</b><span>coupler</span></div>
+          <div class="metric"><b>55 mm</b><span>output rocker</span></div>
+        </div>
+        <p><span class="tag">M4 clearance holes</span><span class="tag">45° pose</span><span class="tag">STEP-first</span></p>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

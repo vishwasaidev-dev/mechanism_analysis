@@ -9,11 +9,13 @@ Experimental lab for mining classic mechanism references and turning them into i
 - `demos/mechanism_lab/index.html` — original polished 2D mechanism studio.
 - `demos/mechanism_contact_preview/index.html` — contact/boundary-focused mechanism preview for cam follower and indexing concepts.
 - `demos/mechanism_rapier_physics/index.html` — Rapier 2D/WASM physics prototype with rigid-body contacts for cam follower and indexing experiments.
+- `demos/four_bar_cad/index.html` — source-controlled CAD pilot with Python/build123d, STEP/STL/GLB outputs, and a web model viewer.
 
 ## Current prototype
 
 - `demos/mechanism_lab/index.html` — interactive variable-dwell indexing yoke concept.
 - `tools/mechanism_lab_extract.py` — builds contact sheets from scanned mechanism PDFs for rapid visual browsing.
+- `demos/four_bar_cad/src/four_bar_linkage.py` — first text-to-CAD mechanism pilot.
 
 ## Local use
 
