@@ -16,6 +16,7 @@ Experimental lab for mining classic mechanism references and turning them into i
 - `demos/geneva_drive/index.html` — enhanced 3D Geneva indexing preset with generated solid wheel slots, driver pin, lock plate, orbit camera, and dwell/indexing readouts.
 - `demos/cam_follower/index.html` — cam follower preset with multiple lift profiles.
 - `demos/contact_boundary_lab/index.html` — first geometric contact-boundary prototype: nearest point, normal, clearance/penetration, and simple response.
+- `demos/simple_pin_slot/index.html` — minimal constraint-first pin-slot mechanism: crank pin, vertical slot, horizontal prismatic slider, clearance validation, and 3D solids.
 - `demos/pin_slot_yoke/index.html` — boundary-driven pin-in-slot/yoke prototype with a crank pin driving a constrained one-DOF slot body.
 - `docs/text-to-cad-animation-workflow.md` — documented workflow for CAD generation, GLB publishing, and 2D/3D browser animation.
 
