@@ -1,8 +1,233 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Geneva Drive Lab — InnovationLab</title><style>
-:root{color-scheme:dark;--line:#28405f;--text:#eaf2ff;--muted:#9fb0cc;--cyan:#7dd3fc;--pink:#f472b6;--green:#86efac;--yellow:#fde68a}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 35% -10%,#254c82,#07101e 58%);color:var(--text);font-family:Inter,system-ui,sans-serif}.shell{max-width:1120px;margin:0 auto;padding:28px}.crumb{color:var(--muted);text-decoration:none}h1{font-size:clamp(32px,5vw,56px);margin:16px 0 8px}.lead{max-width:760px;color:var(--muted);line-height:1.55;font-size:18px}.layout{display:grid;grid-template-columns:1.35fr .65fr;gap:18px;margin-top:22px}.card{background:linear-gradient(180deg,#101d33,#0a1424);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 24px 60px #0007}.stage{width:100%;min-height:610px;border-radius:18px;background:radial-gradient(circle at 50% 45%,#162a49,#06101e 72%);border:1px solid #203755}.controls{display:grid;gap:15px}.row label{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:8px}input{width:100%;accent-color:var(--cyan)}.btn{border:0;border-radius:999px;padding:10px 14px;background:var(--cyan);color:#06101c;font-weight:800;cursor:pointer}.readout{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.metric{border:1px solid #213852;background:#081524;border-radius:14px;padding:10px}.metric b{display:block;color:var(--yellow)}.driver{fill:#7dd3fc;stroke:#06101c;stroke-width:2}.wheel{fill:#172554;stroke:#86efac;stroke-width:3}.slot{stroke:#f472b6;stroke-width:8;stroke-linecap:round}.pin{fill:#fde68a;stroke:#06101c;stroke-width:2}.lock{fill:none;stroke:#94a3b8;stroke-width:3;stroke-dasharray:5 6}.tag{display:inline-block;border:1px solid #355b7d;border-radius:999px;padding:4px 9px;color:#bdddff;font-size:12px;margin:4px 4px 0 0}@media(max-width:900px){.layout{grid-template-columns:1fr}.stage{min-height:440px}}
-</style></head><body><main class="shell"><a class="crumb" href="../../">← InnovationLab</a><h1>Geneva Drive Lab</h1><p class="lead">Intermittent rotary indexing: a continuously rotating driver advances the Geneva wheel one slot at a time, with dwell between indexing events.</p><section class="layout"><article class="card"><svg id="stage" class="stage" viewBox="-130 -110 260 220"><g id="scene"></g></svg></article><aside class="card controls"><h2>Controls</h2><div class="row"><label><span>Slots</span><b><span id="slotsVal">6</span></b></label><input id="slots" type="range" min="4" max="8" value="6" step="1"/></div><div class="row"><label><span>Drive pin radius</span><b><span id="pinVal">38</span> mm</b></label><input id="pinR" type="range" min="28" max="50" value="38" step="1"/></div><div class="row"><label><span>Speed</span><b><span id="speedVal">1.0×</span></b></label><input id="speed" type="range" min="0" max="3" value="1" step="0.1"/></div><button id="play" class="btn">Pause</button><div class="readout"><div class="metric"><span>Index</span><b id="idxOut">0</b></div><div class="metric"><span>State</span><b id="stateOut">dwell</b></div><div class="metric"><span>Wheel angle</span><b id="angleOut">0°</b></div><div class="metric"><span>Dwell approx</span><b id="dwellOut">—</b></div></div><p><span class="tag">intermittent motion</span><span class="tag">indexing</span></p></aside></section></main><script>
-const $=s=>document.querySelector(s), scene=$('#scene'), ui={slots:$('#slots'),pinR:$('#pinR'),speed:$('#speed'),play:$('#play')};let t=0,playing=true;
-function slotLines(n,r){let h='';for(let i=0;i<n;i++){const a=i/n*Math.PI*2, x1=18*Math.cos(a),y1=18*Math.sin(a),x2=r*Math.cos(a),y2=r*Math.sin(a);h+=`<line class="slot" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`}return h}
-function draw(){const n=+ui.slots.value,pinR=+ui.pinR.value,speed=+ui.speed.value, step=2*Math.PI/n;const phase=((t%(2*Math.PI))+2*Math.PI)%(2*Math.PI);const window=0.82;const nearest=Math.round(t/(2*Math.PI))*2*Math.PI;const local=t-nearest;const engaged=Math.abs(local)<window;const base=Math.floor((t+Math.PI)/(2*Math.PI));const progress=engaged?0.5+0.5*Math.sin(local/window*Math.PI/2):local>0?1:0;const wheelA=(base+progress)*step;const drive={x:-62,y:0};const pin={x:drive.x+pinR*Math.cos(t),y:drive.y+pinR*Math.sin(t)};scene.innerHTML=`<g transform="translate(42,0) rotate(${wheelA*180/Math.PI})"><circle class="wheel" r="66"/>${slotLines(n,58)}<circle class="lock" r="30"/></g><g transform="translate(${drive.x},${drive.y}) rotate(${t*180/Math.PI})"><circle class="driver" r="30"/><line x1="0" y1="0" x2="${pinR}" y2="0" stroke="#7dd3fc" stroke-width="5" stroke-linecap="round"/><circle class="pin" cx="${pinR}" cy="0" r="7"/></g><circle class="pin" cx="42" cy="0" r="4"/><circle class="pin" cx="${drive.x}" cy="${drive.y}" r="4"/>`;$('#slotsVal').textContent=n;$('#pinVal').textContent=pinR;$('#speedVal').textContent=speed.toFixed(1)+'×';$('#idxOut').textContent=((Math.round(wheelA/step)%n)+n)%n;$('#stateOut').textContent=engaged?'indexing':'dwell';$('#angleOut').textContent=(wheelA*180/Math.PI).toFixed(1)+'°';$('#dwellOut').textContent=((1-window/Math.PI)*100).toFixed(0)+'%'}
-function tick(){if(playing)t+=0.035*(+ui.speed.value);draw();requestAnimationFrame(tick)}Object.values(ui).forEach(el=>el.addEventListener?.('input',draw));ui.play.onclick=()=>{playing=!playing;ui.play.textContent=playing?'Pause':'Play'};tick();
-</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Geneva Drive Lab — InnovationLab</title>
+  <style>
+    :root{color-scheme:dark;--line:#28405f;--text:#eaf2ff;--muted:#9fb0cc;--cyan:#7dd3fc;--pink:#f472b6;--green:#86efac;--yellow:#fde68a;--red:#fb7185}*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 35% -10%,#254c82,#07101e 58%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}.shell{max-width:1240px;margin:0 auto;padding:28px}.crumb{color:var(--muted);text-decoration:none}h1{font-size:clamp(32px,5vw,56px);margin:16px 0 8px;letter-spacing:-.04em}.lead{max-width:880px;color:var(--muted);line-height:1.55;font-size:18px}.layout{display:grid;grid-template-columns:1.38fr .62fr;gap:18px;margin-top:22px}.card{background:linear-gradient(180deg,#101d33,#0a1424);border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 24px 60px #0007}.viewer{position:relative;min-height:680px;border-radius:18px;overflow:hidden;background:radial-gradient(circle at 50% 45%,#162a49,#06101e 72%);border:1px solid #203755}.viewer canvas{display:block;width:100%;height:100%}.hint{position:absolute;left:14px;bottom:12px;color:#bdd7f8;background:#06101dcc;border:1px solid #315271;border-radius:999px;padding:7px 11px;font-size:12px}.badge{position:absolute;right:14px;top:12px;color:#06101c;background:var(--yellow);border-radius:999px;padding:7px 11px;font-weight:800;font-size:12px}.controls{display:grid;gap:15px}.row label{display:flex;justify-content:space-between;color:var(--muted);font-size:14px;margin-bottom:8px}input{width:100%;accent-color:var(--cyan)}.buttons{display:flex;gap:10px;flex-wrap:wrap}.btn{border:0;border-radius:999px;padding:10px 14px;background:var(--cyan);color:#06101c;font-weight:800;cursor:pointer}.btn.secondary{background:transparent;color:var(--text);border:1px solid var(--line)}.readout{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;font-variant-numeric:tabular-nums}.metric{border:1px solid #213852;background:#081524;border-radius:14px;padding:10px}.metric span{display:block;color:var(--muted);font-size:12px}.metric b{display:block;color:var(--yellow);margin-top:2px}.note{color:var(--muted);line-height:1.5}.tag{display:inline-block;border:1px solid #355b7d;border-radius:999px;padding:4px 9px;color:#bdddff;font-size:12px;margin:4px 4px 0 0}@media(max-width:940px){.layout{grid-template-columns:1fr}.viewer{min-height:520px}.readout{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <a class="crumb" href="../../">← InnovationLab</a>
+    <h1>Geneva Drive Lab</h1>
+    <p class="lead">A CAD-style browser model of an intermittent Geneva indexer. The driver rotates continuously; the pin engages one radial slot, advances the driven wheel, then the lock plate holds the wheel through dwell.</p>
+
+    <section class="layout">
+      <article class="card viewer" id="viewer">
+        <div class="badge">3D solids preview</div>
+        <div class="hint">Drag to orbit · wheel to zoom · generated live from parameters</div>
+      </article>
+      <aside class="card controls">
+        <div>
+          <h2>Controls</h2>
+          <p class="note">This is still our fast browser-side solid generator — not imported CAD — but it uses thicker parts, slots, hubs, lighting, and layered motion so it reads much closer to a real mechanism.</p>
+        </div>
+        <div class="row"><label><span>Slots</span><strong><span id="slotsVal">4</span></strong></label><input id="slots" type="range" min="4" max="8" value="4" step="1" /></div>
+        <div class="row"><label><span>Wheel radius</span><strong><span id="radiusVal">78</span> mm</strong></label><input id="radius" type="range" min="58" max="98" value="78" step="1" /></div>
+        <div class="row"><label><span>Pin throw</span><strong><span id="throwVal">56</span> mm</strong></label><input id="throwR" type="range" min="38" max="76" value="56" step="1" /></div>
+        <div class="row"><label><span>Speed</span><strong><span id="speedVal">1.0×</span></strong></label><input id="speed" type="range" min="0" max="3" value="1" step="0.1" /></div>
+        <div class="buttons"><button id="play" class="btn" type="button">Pause</button><button id="resetCam" class="btn secondary" type="button">Reset camera</button></div>
+        <div class="readout">
+          <div class="metric"><span>Index</span><b id="idxOut">0 / 4</b></div>
+          <div class="metric"><span>State</span><b id="stateOut">dwell</b></div>
+          <div class="metric"><span>Driven angle</span><b id="angleOut">0°</b></div>
+          <div class="metric"><span>Dwell per turn</span><b id="dwellOut">—</b></div>
+        </div>
+        <p><span class="tag">intermittent indexing</span><span class="tag">generated solids</span><span class="tag">CAD-ready geometry sketch</span></p>
+      </aside>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+  <script>
+    const $ = s => document.querySelector(s);
+    const viewer = $('#viewer');
+    const ui = { slots: $('#slots'), radius: $('#radius'), throwR: $('#throwR'), speed: $('#speed'), play: $('#play'), resetCam: $('#resetCam') };
+    const read = { idx: $('#idxOut'), state: $('#stateOut'), angle: $('#angleOut'), dwell: $('#dwellOut') };
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x07101e);
+    const camera = new THREE.PerspectiveCamera(42, 1, 1, 2000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+    viewer.prepend(renderer.domElement);
+
+    const root = new THREE.Group();
+    scene.add(root);
+    scene.add(new THREE.HemisphereLight(0xbdd7ff, 0x07101e, 1.85));
+    const key = new THREE.DirectionalLight(0xffffff, 2.7); key.position.set(180, -240, 320); scene.add(key);
+    const rim = new THREE.DirectionalLight(0x7dd3fc, 1.1); rim.position.set(-240, 160, 190); scene.add(rim);
+
+    const mats = {
+      base: new THREE.MeshStandardMaterial({ color: 0x13294a, metalness: 0.12, roughness: 0.55 }),
+      driven: new THREE.MeshStandardMaterial({ color: 0x22d3ee, metalness: 0.18, roughness: 0.38, emissive: 0x063f52, emissiveIntensity: 0.16 }),
+      driver: new THREE.MeshStandardMaterial({ color: 0xfb923c, metalness: 0.12, roughness: 0.38, emissive: 0x5a2108, emissiveIntensity: 0.12 }),
+      lock: new THREE.MeshStandardMaterial({ color: 0xef4444, metalness: 0.12, roughness: 0.45, emissive: 0x4b0d0d, emissiveIntensity: 0.1 }),
+      pin: new THREE.MeshStandardMaterial({ color: 0xfde047, metalness: 0.2, roughness: 0.28, emissive: 0x7a5200, emissiveIntensity: 0.24 }),
+      steel: new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.55, roughness: 0.24 }),
+      ghost: new THREE.MeshStandardMaterial({ color: 0x315271, transparent: true, opacity: 0.28, metalness: 0.05, roughness: 0.6 }),
+      edge: new THREE.LineBasicMaterial({ color: 0xdbeafe, transparent: true, opacity: 0.42 })
+    };
+
+    let t = 0, playing = true, dirty = true;
+    let wheelGroup, driverGroup, pinFollower, lockArc;
+    const geomCache = [];
+    const orbit = { rx: 0.92, rz: -0.72, dist: 330 };
+    let drag = null;
+
+    function resize() {
+      const r = viewer.getBoundingClientRect();
+      renderer.setSize(r.width, r.height, false);
+      camera.aspect = r.width / r.height || 1;
+      camera.updateProjectionMatrix();
+    }
+    addEventListener('resize', resize);
+    function setCam() {
+      camera.position.set(
+        orbit.dist * Math.cos(orbit.rz) * Math.cos(orbit.rx),
+        orbit.dist * Math.sin(orbit.rz) * Math.cos(orbit.rx),
+        orbit.dist * Math.sin(orbit.rx)
+      );
+      camera.lookAt(0, 0, 8);
+    }
+    renderer.domElement.addEventListener('pointerdown', e => { drag = { x:e.clientX, y:e.clientY, rx:orbit.rx, rz:orbit.rz }; renderer.domElement.setPointerCapture(e.pointerId); });
+    renderer.domElement.addEventListener('pointermove', e => { if(!drag) return; orbit.rz = drag.rz - (e.clientX-drag.x)*0.008; orbit.rx = Math.max(0.2, Math.min(1.42, drag.rx + (e.clientY-drag.y)*0.006)); setCam(); });
+    renderer.domElement.addEventListener('pointerup', () => drag = null);
+    renderer.domElement.addEventListener('wheel', e => { e.preventDefault(); orbit.dist = Math.max(190, Math.min(560, orbit.dist + e.deltaY*0.35)); setCam(); }, { passive:false });
+    ui.resetCam.onclick = () => { orbit.rx = 0.92; orbit.rz = -0.72; orbit.dist = 330; setCam(); };
+
+    function disposeObject(o) {
+      o.traverse(child => { if (child.geometry) child.geometry.dispose(); });
+    }
+    function clearRoot() {
+      while (root.children.length) { const c = root.children.pop(); disposeObject(c); }
+      geomCache.splice(0).forEach(g => g.dispose?.());
+    }
+    function cyl(r, h, mat, z=0, seg=96) {
+      const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, seg), mat);
+      m.rotation.x = Math.PI / 2;
+      m.position.z = z;
+      return m;
+    }
+    function box(x,y,z,mat) { return new THREE.Mesh(new THREE.BoxGeometry(x,y,z), mat); }
+    function puck(x,y,r,h,mat,z=0) { const m = cyl(r,h,mat,z); m.position.x=x; m.position.y=y; return m; }
+    function rod(a,b,rad,mat,z=0) { const dx=b.x-a.x, dy=b.y-a.y, L=Math.hypot(dx,dy); const m=box(L,rad*2,rad*2,mat); m.position.set((a.x+b.x)/2,(a.y+b.y)/2,z); m.rotation.z=Math.atan2(dy,dx); return m; }
+    function edge(mesh) { const e = new THREE.LineSegments(new THREE.EdgesGeometry(mesh.geometry, 22), mats.edge); e.position.copy(mesh.position); e.rotation.copy(mesh.rotation); e.scale.copy(mesh.scale); return e; }
+    function pathCircle(path, r, reverse=false, cx=0, cy=0, steps=96) {
+      const start = reverse ? steps : 0, end = reverse ? 0 : steps, dir = reverse ? -1 : 1;
+      for (let i = start; reverse ? i >= end : i <= end; i += dir) {
+        const a = i / steps * Math.PI * 2, x = cx + r*Math.cos(a), y = cy + r*Math.sin(a);
+        if (i === start) path.moveTo(x,y); else path.lineTo(x,y);
+      }
+      path.closePath();
+    }
+    function capsuleHole(x1,y1,x2,y2,half) {
+      const path = new THREE.Path();
+      const a = Math.atan2(y2-y1, x2-x1), pts = [];
+      for (let i=0;i<=14;i++) { const th = a + Math.PI/2 - i*Math.PI/14; pts.push([x2 + half*Math.cos(th), y2 + half*Math.sin(th)]); }
+      for (let i=0;i<=14;i++) { const th = a - Math.PI/2 - i*Math.PI/14; pts.push([x1 + half*Math.cos(th), y1 + half*Math.sin(th)]); }
+      pts.forEach((p,i)=> i ? path.lineTo(p[0],p[1]) : path.moveTo(p[0],p[1]));
+      path.closePath();
+      return path;
+    }
+    function genevaWheelShape(n, outerR) {
+      const shape = new THREE.Shape();
+      pathCircle(shape, outerR, false, 0, 0, 160);
+      const slotIn = outerR * 0.24, slotOut = outerR * 0.84, slotHalf = Math.max(5.4, outerR*0.075);
+      for (let i=0;i<n;i++) {
+        const a = i/n*Math.PI*2;
+        shape.holes.push(capsuleHole(slotIn*Math.cos(a), slotIn*Math.sin(a), slotOut*Math.cos(a), slotOut*Math.sin(a), slotHalf));
+      }
+      const center = new THREE.Path(); pathCircle(center, outerR*0.16, true, 0, 0, 80); shape.holes.push(center);
+      return shape;
+    }
+    function ringShape(outerR, innerR) {
+      const s = new THREE.Shape(); pathCircle(s, outerR, false, 0, 0, 128);
+      const h = new THREE.Path(); pathCircle(h, innerR, true, 0, 0, 96); s.holes.push(h);
+      return s;
+    }
+    function extrude(shape, depth, mat, z=0) {
+      const geo = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled:true, bevelSize:0.9, bevelThickness:0.9, bevelSegments:2 });
+      geomCache.push(geo);
+      const m = new THREE.Mesh(geo, mat); m.position.z = z - depth/2; return m;
+    }
+    function grid() {
+      const g = new THREE.GridHelper(300, 12, 0x315271, 0x203755); g.rotation.x = Math.PI/2; g.position.z = -28; root.add(g);
+      const plate = new THREE.Mesh(new THREE.CircleGeometry(150, 96), mats.ghost); plate.position.z = -30; root.add(plate);
+    }
+
+    function rebuild() {
+      clearRoot();
+      const n = +ui.slots.value, R = +ui.radius.value, throwR = +ui.throwR.value;
+      const drivenX = 58, driverX = -58, depth = 22;
+      grid();
+
+      const base = rod({x:driverX,y:0}, {x:drivenX,y:0}, 8, mats.base, -18);
+      root.add(base, puck(driverX,0,10,22,mats.steel,-4), puck(drivenX,0,10,22,mats.steel,-4));
+
+      wheelGroup = new THREE.Group(); wheelGroup.position.set(drivenX, 0, 8); root.add(wheelGroup);
+      const wheel = extrude(genevaWheelShape(n, R), depth, mats.driven, 0);
+      const rim = extrude(ringShape(R+6, R+1), 7, mats.steel, -15);
+      wheelGroup.add(wheel, edge(wheel), rim, puck(0,0,R*0.18,30,mats.steel,1));
+
+      driverGroup = new THREE.Group(); driverGroup.position.set(driverX, 0, 17); root.add(driverGroup);
+      const driverDisc = puck(0,0,Math.max(25, throwR*0.52),18,mats.driver,0);
+      const arm = rod({x:0,y:0},{x:throwR,y:0},5,mats.driver,1);
+      const pin = puck(throwR,0,7.5,42,mats.pin,14);
+      const lock = extrude(ringShape(Math.max(23, throwR*0.42), Math.max(13, throwR*0.26)), 8, mats.lock, -14);
+      driverGroup.add(driverDisc, edge(driverDisc), arm, pin, lock);
+
+      pinFollower = puck(0,0,9,8,mats.pin,42); root.add(pinFollower);
+      lockArc = new THREE.Mesh(new THREE.TorusGeometry(R*0.55, 1.5, 8, 80, Math.PI*1.55), mats.steel);
+      lockArc.position.set(drivenX,0,36); lockArc.rotation.z = -Math.PI*0.78; root.add(lockArc);
+      dirty = false;
+    }
+
+    function smoothstep(x) { return x*x*(3-2*x); }
+    function stateAt(theta, n) {
+      const two = Math.PI * 2;
+      const step = two / n;
+      const cycle = Math.floor((theta + Math.PI) / two);
+      const local = theta - cycle * two;
+      const window = Math.max(0.34, Math.PI / n * 1.05);
+      let progress, engaged;
+      if (Math.abs(local) <= window) { progress = smoothstep((local + window) / (2 * window)); engaged = true; }
+      else { progress = local > 0 ? 1 : 0; engaged = false; }
+      return { wheel: -(cycle + progress) * step, engaged, index: ((cycle + (progress > 0.5 ? 1 : 0)) % n + n) % n, window };
+    }
+    function updateReadout(n, st) {
+      $('#slotsVal').textContent = n;
+      $('#radiusVal').textContent = ui.radius.value;
+      $('#throwVal').textContent = ui.throwR.value;
+      $('#speedVal').textContent = (+ui.speed.value).toFixed(1) + '×';
+      read.idx.textContent = `${st.index} / ${n}`;
+      read.state.textContent = st.engaged ? 'indexing — pin engaged' : 'dwell — locked';
+      read.angle.textContent = (st.wheel * 180 / Math.PI).toFixed(1) + '°';
+      read.dwell.textContent = Math.max(0, (1 - (2*st.window)/(Math.PI*2)) * 100).toFixed(0) + '%';
+    }
+    function animate() {
+      requestAnimationFrame(animate);
+      if (dirty) rebuild();
+      const n = +ui.slots.value, speed = +ui.speed.value;
+      if (playing) t += 0.018 * speed;
+      const st = stateAt(t, n);
+      wheelGroup.rotation.z = st.wheel;
+      driverGroup.rotation.z = t;
+      const driverX = -58, throwR = +ui.throwR.value;
+      pinFollower.position.set(driverX + throwR*Math.cos(t), throwR*Math.sin(t), 43);
+      pinFollower.visible = st.engaged;
+      lockArc.visible = !st.engaged;
+      lockArc.rotation.z = st.wheel - Math.PI*0.78;
+      root.rotation.z = -0.02;
+      updateReadout(n, st);
+      renderer.render(scene, camera);
+    }
+
+    Object.values(ui).forEach(el => el.addEventListener?.('input', () => { dirty = true; }));
+    ui.play.onclick = () => { playing = !playing; ui.play.textContent = playing ? 'Pause' : 'Play'; };
+    resize(); setCam(); rebuild(); animate();
+  </script>
+</body>
+</html>

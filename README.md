@@ -13,7 +13,7 @@ Experimental lab for mining classic mechanism references and turning them into i
 - `demos/mechanisms_3d/index.html` — browser-side 3D studio converting the latest 2D mechanism presets into animated Three.js solids.
 - `demos/planetary_gear/index.html` — browser-side planetary gear preset with sun/planet/ring/carrier animation and ratio controls.
 - `demos/slider_crank/index.html` — rotary-to-linear slider-crank preset with geometry controls and readouts.
-- `demos/geneva_drive/index.html` — intermittent Geneva indexing preset with slot/dwell controls.
+- `demos/geneva_drive/index.html` — enhanced 3D Geneva indexing preset with generated solid wheel slots, driver pin, lock plate, orbit camera, and dwell/indexing readouts.
 - `demos/cam_follower/index.html` — cam follower preset with multiple lift profiles.
 - `demos/contact_boundary_lab/index.html` — first geometric contact-boundary prototype: nearest point, normal, clearance/penetration, and simple response.
 - `demos/pin_slot_yoke/index.html` — boundary-driven pin-in-slot/yoke prototype with a crank pin driving a constrained one-DOF slot body.
