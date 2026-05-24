@@ -25,8 +25,8 @@
           <p class="note">This is still our fast browser-side solid generator — not imported CAD — but it uses thicker parts, slots, hubs, lighting, and layered motion so it reads much closer to a real mechanism.</p>
         </div>
         <div class="row"><label><span>Slots</span><strong><span id="slotsVal">4</span></strong></label><input id="slots" type="range" min="4" max="8" value="4" step="1" /></div>
-        <div class="row"><label><span>Wheel radius</span><strong><span id="radiusVal">78</span> mm</strong></label><input id="radius" type="range" min="58" max="98" value="78" step="1" /></div>
-        <div class="row"><label><span>Pin throw</span><strong><span id="throwVal">56</span> mm</strong></label><input id="throwR" type="range" min="38" max="76" value="56" step="1" /></div>
+        <div class="row"><label><span>Slot / pin orbit radius</span><strong><span id="radiusVal">72</span> mm</strong></label><input id="radius" type="range" min="54" max="90" value="72" step="1" /></div>
+        <div class="row"><label><span>Pin diameter</span><strong><span id="throwVal">14</span> mm</strong></label><input id="throwR" type="range" min="9" max="20" value="14" step="1" /></div>
         <div class="row"><label><span>Speed</span><strong><span id="speedVal">1.0×</span></strong></label><input id="speed" type="range" min="0" max="3" value="1" step="0.1" /></div>
         <div class="buttons"><button id="play" class="btn" type="button">Pause</button><button id="resetCam" class="btn secondary" type="button">Reset camera</button></div>
         <div class="readout">
@@ -134,26 +134,28 @@
       path.closePath();
       return path;
     }
-    function genevaWheelShape(n, outerR) {
+    function genevaWheelShape(n, outerR, slotR, pinRadius, alpha) {
       // A lobed Maltese-cross outline reads much more like a real Geneva
       // wheel than a plain round disc. Slots sit on the lobes; the shallow
       // concave sections between slots are the locking surfaces.
       const shape = new THREE.Shape();
-      const steps = n * 44, recess = outerR * 0.16;
+      const steps = n * 56, recess = outerR * 0.20;
       for (let i=0;i<=steps;i++) {
         const a = i / steps * Math.PI * 2;
         const betweenSlots = 0.5 - 0.5 * Math.cos(n * a);
-        const r = outerR - recess * Math.pow(betweenSlots, 0.72);
+        const r = outerR - recess * Math.pow(betweenSlots, 0.58);
         const x = r * Math.cos(a), y = r * Math.sin(a);
         i ? shape.lineTo(x,y) : shape.moveTo(x,y);
       }
       shape.closePath();
-      const slotIn = outerR * 0.22, slotOut = outerR * 0.82, slotHalf = Math.max(5.4, outerR*0.07);
+      const slotIn = Math.max(slotR * (1 / Math.sin(alpha) - 1) - pinRadius * 1.4, slotR * 0.24);
+      const slotOut = slotR + pinRadius * 0.8;
+      const slotHalf = pinRadius + 1.1;
       for (let i=0;i<n;i++) {
         const a = i/n*Math.PI*2;
         shape.holes.push(capsuleHole(slotIn*Math.cos(a), slotIn*Math.sin(a), slotOut*Math.cos(a), slotOut*Math.sin(a), slotHalf));
       }
-      const center = new THREE.Path(); pathCircle(center, outerR*0.16, true, 0, 0, 80); shape.holes.push(center);
+      const center = new THREE.Path(); pathCircle(center, outerR*0.15, true, 0, 0, 80); shape.holes.push(center);
       return shape;
     }
     function ringShape(outerR, innerR) {
@@ -172,15 +174,21 @@
     }
 
     function geometryParams() {
-      const n = +ui.slots.value, R = +ui.radius.value, throwR = +ui.throwR.value;
+      const n = +ui.slots.value;
+      const slotR = +ui.radius.value;
+      const pinRadius = +ui.throwR.value / 2;
       const alpha = Math.PI / n;
+      // Classical external Geneva: driver pin radius / center distance = sin(pi/n).
+      // Here the pin orbit reaches the active slot's outer working radius.
+      const throwR = slotR;
       const centerDistance = throwR / Math.sin(alpha);
-      return { n, R, throwR, alpha, centerDistance, driverX: -centerDistance/2, drivenX: centerDistance/2 };
+      const outerR = slotR + pinRadius * 2.6;
+      return { n, R: outerR, slotR, throwR, pinRadius, alpha, centerDistance, driverX: -centerDistance/2, drivenX: centerDistance/2 };
     }
 
     function rebuild() {
       clearRoot();
-      const { n, R, throwR, centerDistance, driverX, drivenX } = geometryParams();
+      const { n, R, slotR, throwR, pinRadius, alpha, centerDistance, driverX, drivenX } = geometryParams();
       const depth = 22;
       grid();
 
@@ -188,19 +196,24 @@
       root.add(base, puck(driverX,0,10,22,mats.steel,-4), puck(drivenX,0,10,22,mats.steel,-4));
 
       wheelGroup = new THREE.Group(); wheelGroup.position.set(drivenX, 0, 8); root.add(wheelGroup);
-      const wheel = extrude(genevaWheelShape(n, R), depth, mats.driven, 0);
-      const rim = extrude(ringShape(R+6, R+1), 7, mats.steel, -15);
-      wheelGroup.add(wheel, edge(wheel), rim, puck(0,0,R*0.18,30,mats.steel,1));
+      const wheelBody = new THREE.Group();
+      // Offset the modeled slots so, at dwell angle 0, the incoming active
+      // slot is exactly at the mathematical entry angle of the driver pin.
+      wheelBody.rotation.z = continuousSlotAngle(-alpha, throwR, centerDistance);
+      const wheel = extrude(genevaWheelShape(n, R, slotR, pinRadius, alpha), depth, mats.driven, 0);
+      const rim = extrude(ringShape(R+4, R+0.5), 6, mats.steel, -15);
+      wheelBody.add(wheel, edge(wheel), rim, puck(0,0,R*0.15,30,mats.steel,1));
+      wheelGroup.add(wheelBody);
 
       driverGroup = new THREE.Group(); driverGroup.position.set(driverX, 0, 17); root.add(driverGroup);
-      const driverDisc = puck(0,0,Math.max(25, throwR*0.52),18,mats.driver,0);
-      const arm = rod({x:0,y:0},{x:throwR,y:0},5,mats.driver,1);
-      const pin = puck(throwR,0,7.5,42,mats.pin,14);
-      const lock = extrude(ringShape(Math.max(23, throwR*0.42), Math.max(13, throwR*0.26)), 8, mats.lock, -14);
+      const driverDisc = puck(0,0,Math.max(23, throwR*0.36),18,mats.driver,0);
+      const arm = rod({x:0,y:0},{x:throwR,y:0},Math.max(3.5,pinRadius*0.48),mats.driver,1);
+      const pin = puck(throwR,0,pinRadius,44,mats.pin,14);
+      const lock = extrude(ringShape(Math.max(20, centerDistance - R + pinRadius), Math.max(11, centerDistance - R - pinRadius*0.8)), 8, mats.lock, -14);
       driverGroup.add(driverDisc, edge(driverDisc), arm, pin, lock);
 
-      pinFollower = puck(0,0,9,8,mats.pin,42); root.add(pinFollower);
-      lockArc = new THREE.Mesh(new THREE.TorusGeometry(R*0.55, 1.5, 8, 80, Math.PI*1.55), mats.steel);
+      pinFollower = puck(0,0,pinRadius*1.05,8,mats.pin,42); root.add(pinFollower);
+      lockArc = new THREE.Mesh(new THREE.TorusGeometry(Math.max(18, centerDistance - R + pinRadius), 1.5, 8, 80, Math.PI*1.55), mats.steel);
       lockArc.position.set(drivenX,0,36); lockArc.rotation.z = -Math.PI*0.78; root.add(lockArc);
       dirty = false;
     }
@@ -240,7 +253,7 @@
       read.angle.textContent = (st.wheel * 180 / Math.PI).toFixed(1) + '°';
       read.dwell.textContent = Math.max(0, (1 - (2*st.window)/(Math.PI*2)) * 100).toFixed(0) + '%';
       read.center.textContent = st.centerDistance.toFixed(1) + ' mm';
-      read.constraint.textContent = `r/C = sin(${(180/n).toFixed(0)}°)`;
+      read.constraint.textContent = `pin orbit/C = sin(${(180/n).toFixed(0)}°)`;
     }
     function animate() {
       requestAnimationFrame(animate);
