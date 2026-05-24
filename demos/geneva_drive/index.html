@@ -150,7 +150,7 @@
         i ? shape.lineTo(x,y) : shape.moveTo(x,y);
       }
       shape.closePath();
-      const { slotIn, slotOut, slotHalf } = slotDims(slotR, pinRadius, alpha);
+      const { slotIn, slotOut, slotHalf } = slotDims(slotR, pinRadius, alpha, outerR);
       for (let i=0;i<n;i++) {
         const a = i/n*Math.PI*2;
         shape.holes.push(capsuleHole(slotIn*Math.cos(a), slotIn*Math.sin(a), slotOut*Math.cos(a), slotOut*Math.sin(a), slotHalf));
@@ -174,10 +174,13 @@
       s.closePath();
       return s;
     }
-    function slotDims(slotR, pinRadius, alpha) {
+    function slotDims(slotR, pinRadius, alpha, outerR = slotR + pinRadius * 2.6) {
       return {
         slotIn: Math.max(slotR * (1 / Math.sin(alpha) - 1) - pinRadius * 1.4, slotR * 0.24),
-        slotOut: slotR + pinRadius * 0.8,
+        // Extend beyond the wheel perimeter so the slot mouth is truly open.
+        // Otherwise a thin front/outer skin remains and the pin appears to
+        // intersect solid material at entry/exit.
+        slotOut: outerR + pinRadius * 1.8,
         slotHalf: pinRadius + 1.1
       };
     }
@@ -219,9 +222,9 @@
       // slot is exactly at the mathematical entry angle of the driver pin.
       wheelBody.rotation.z = continuousSlotAngle(-alpha, throwR, centerDistance);
       const wheel = extrude(genevaWheelShape(n, R, slotR, pinRadius, alpha), depth, mats.driven, 0);
-      const rim = extrude(ringShape(R+4, R+0.5), 6, mats.steel, -15);
-      wheelBody.add(wheel, edge(wheel), rim, puck(0,0,R*0.15,30,mats.steel,1));
-      const dims = slotDims(slotR, pinRadius, alpha);
+      // No continuous outer rim: it would visually re-close the slot mouths.
+      wheelBody.add(wheel, edge(wheel), puck(0,0,R*0.15,30,mats.steel,1));
+      const dims = slotDims(slotR, pinRadius, alpha, R);
       for (let i=0;i<n;i++) {
         const guide = extrude(slotGuideShape(dims.slotIn, dims.slotOut, dims.slotHalf*0.92), 2.2, mats.channel, 14.2);
         guide.rotation.z = i/n*Math.PI*2;
