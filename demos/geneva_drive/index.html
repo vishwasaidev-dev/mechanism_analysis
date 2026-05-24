@@ -12,7 +12,7 @@
   <main class="shell">
     <a class="crumb" href="../../">← InnovationLab</a>
     <h1>Geneva Drive Lab</h1>
-    <p class="lead">A CAD-style browser model of an intermittent Geneva indexer. The driver rotates continuously; the pin engages one radial slot, advances the driven wheel, then the lock plate holds the wheel through dwell.</p>
+    <p class="lead">A CAD-style browser model of an intermittent Geneva indexer. The driver and wheel centers now follow the classical Geneva constraint <code>C = r / sin(π / n)</code>; the pin engages a real radial slot window, advances exactly one index, then the lock plate holds the wheel through dwell.</p>
 
     <section class="layout">
       <article class="card viewer" id="viewer">
@@ -34,6 +34,8 @@
           <div class="metric"><span>State</span><b id="stateOut">dwell</b></div>
           <div class="metric"><span>Driven angle</span><b id="angleOut">0°</b></div>
           <div class="metric"><span>Dwell per turn</span><b id="dwellOut">—</b></div>
+          <div class="metric"><span>Center distance</span><b id="centerOut">—</b></div>
+          <div class="metric"><span>Constraint</span><b id="constraintOut">true Geneva</b></div>
         </div>
         <p><span class="tag">intermittent indexing</span><span class="tag">generated solids</span><span class="tag">CAD-ready geometry sketch</span></p>
       </aside>
@@ -45,7 +47,7 @@
     const $ = s => document.querySelector(s);
     const viewer = $('#viewer');
     const ui = { slots: $('#slots'), radius: $('#radius'), throwR: $('#throwR'), speed: $('#speed'), play: $('#play'), resetCam: $('#resetCam') };
-    const read = { idx: $('#idxOut'), state: $('#stateOut'), angle: $('#angleOut'), dwell: $('#dwellOut') };
+    const read = { idx: $('#idxOut'), state: $('#stateOut'), angle: $('#angleOut'), dwell: $('#dwellOut'), center: $('#centerOut'), constraint: $('#constraintOut') };
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0x07101e);
@@ -133,9 +135,20 @@
       return path;
     }
     function genevaWheelShape(n, outerR) {
+      // A lobed Maltese-cross outline reads much more like a real Geneva
+      // wheel than a plain round disc. Slots sit on the lobes; the shallow
+      // concave sections between slots are the locking surfaces.
       const shape = new THREE.Shape();
-      pathCircle(shape, outerR, false, 0, 0, 160);
-      const slotIn = outerR * 0.24, slotOut = outerR * 0.84, slotHalf = Math.max(5.4, outerR*0.075);
+      const steps = n * 44, recess = outerR * 0.16;
+      for (let i=0;i<=steps;i++) {
+        const a = i / steps * Math.PI * 2;
+        const betweenSlots = 0.5 - 0.5 * Math.cos(n * a);
+        const r = outerR - recess * Math.pow(betweenSlots, 0.72);
+        const x = r * Math.cos(a), y = r * Math.sin(a);
+        i ? shape.lineTo(x,y) : shape.moveTo(x,y);
+      }
+      shape.closePath();
+      const slotIn = outerR * 0.22, slotOut = outerR * 0.82, slotHalf = Math.max(5.4, outerR*0.07);
       for (let i=0;i<n;i++) {
         const a = i/n*Math.PI*2;
         shape.holes.push(capsuleHole(slotIn*Math.cos(a), slotIn*Math.sin(a), slotOut*Math.cos(a), slotOut*Math.sin(a), slotHalf));
@@ -158,10 +171,17 @@
       const plate = new THREE.Mesh(new THREE.CircleGeometry(150, 96), mats.ghost); plate.position.z = -30; root.add(plate);
     }
 
+    function geometryParams() {
+      const n = +ui.slots.value, R = +ui.radius.value, throwR = +ui.throwR.value;
+      const alpha = Math.PI / n;
+      const centerDistance = throwR / Math.sin(alpha);
+      return { n, R, throwR, alpha, centerDistance, driverX: -centerDistance/2, drivenX: centerDistance/2 };
+    }
+
     function rebuild() {
       clearRoot();
-      const n = +ui.slots.value, R = +ui.radius.value, throwR = +ui.throwR.value;
-      const drivenX = 58, driverX = -58, depth = 22;
+      const { n, R, throwR, centerDistance, driverX, drivenX } = geometryParams();
+      const depth = 22;
       grid();
 
       const base = rod({x:driverX,y:0}, {x:drivenX,y:0}, 8, mats.base, -18);
@@ -185,17 +205,30 @@
       dirty = false;
     }
 
-    function smoothstep(x) { return x*x*(3-2*x); }
-    function stateAt(theta, n) {
-      const two = Math.PI * 2;
-      const step = two / n;
-      const cycle = Math.floor((theta + Math.PI) / two);
+    function continuousSlotAngle(local, throwR, centerDistance) {
+      let a = Math.atan2(throwR * Math.sin(local), throwR * Math.cos(local) - centerDistance);
+      // Keep the engaged slot angle continuous through -π instead of jumping
+      // from -180° to +180°. That gives the exact Geneva index motion.
+      if (a > 0) a -= Math.PI * 2;
+      return a;
+    }
+    function stateAt(theta) {
+      const { n, throwR, alpha, centerDistance } = geometryParams();
+      const two = Math.PI * 2, step = two / n;
+      const cycle = Math.round(theta / two);
       const local = theta - cycle * two;
-      const window = Math.max(0.34, Math.PI / n * 1.05);
-      let progress, engaged;
-      if (Math.abs(local) <= window) { progress = smoothstep((local + window) / (2 * window)); engaged = true; }
-      else { progress = local > 0 ? 1 : 0; engaged = false; }
-      return { wheel: -(cycle + progress) * step, engaged, index: ((cycle + (progress > 0.5 ? 1 : 0)) % n + n) % n, window };
+      const entry = continuousSlotAngle(-alpha, throwR, centerDistance);
+      let wheel, engaged;
+      if (Math.abs(local) <= alpha) {
+        const slotAngle = continuousSlotAngle(local, throwR, centerDistance);
+        wheel = -cycle * step + (slotAngle - entry);
+        engaged = true;
+      } else {
+        wheel = local > 0 ? -(cycle + 1) * step : -cycle * step;
+        engaged = false;
+      }
+      const index = (((Math.round(-wheel / step)) % n) + n) % n;
+      return { wheel, engaged, index, window: alpha, centerDistance, alpha };
     }
     function updateReadout(n, st) {
       $('#slotsVal').textContent = n;
@@ -206,16 +239,18 @@
       read.state.textContent = st.engaged ? 'indexing — pin engaged' : 'dwell — locked';
       read.angle.textContent = (st.wheel * 180 / Math.PI).toFixed(1) + '°';
       read.dwell.textContent = Math.max(0, (1 - (2*st.window)/(Math.PI*2)) * 100).toFixed(0) + '%';
+      read.center.textContent = st.centerDistance.toFixed(1) + ' mm';
+      read.constraint.textContent = `r/C = sin(${(180/n).toFixed(0)}°)`;
     }
     function animate() {
       requestAnimationFrame(animate);
       if (dirty) rebuild();
       const n = +ui.slots.value, speed = +ui.speed.value;
       if (playing) t += 0.018 * speed;
-      const st = stateAt(t, n);
+      const st = stateAt(t);
       wheelGroup.rotation.z = st.wheel;
       driverGroup.rotation.z = t;
-      const driverX = -58, throwR = +ui.throwR.value;
+      const { driverX, throwR } = geometryParams();
       pinFollower.position.set(driverX + throwR*Math.cos(t), throwR*Math.sin(t), 43);
       pinFollower.visible = st.engaged;
       lockArc.visible = !st.engaged;
